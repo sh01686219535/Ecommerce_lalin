@@ -303,9 +303,9 @@ footer .socials i {
 }
 
 .container {
-  max-width: 700px;
+  max-width: 95%;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 10px 20px;
 }
 
 /* Contact section */
@@ -664,3 +664,204 @@ header p {
 .fixed-footer.show {
     bottom: 0; /* show footer */
 }
+/* /=================New Header Start=================/ */
+      
+.top-header {
+    background: #fff;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.cart-icon {
+    font-size: 28px;
+    color: #28a745;
+    margin-right: 8px;
+}
+
+.logo-text .brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: #e60023;
+}
+
+.logo-text .brand-green {
+    font-size: 24px;
+    font-weight: bold;
+    color: #28a745;
+}
+
+.logo-text .dot {
+    font-size: 14px;
+    color: #000;
+}
+
+.tagline {
+    font-size: 12px;
+    color: #555;
+}
+
+/* Search Box */
+.search-box {
+    display: flex;
+    width: 45%;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #28a745;
+    border-right: none;
+    outline: none;
+    border-radius: 5px 0 0 5px;
+}
+
+.search-box button {
+    background: #28a745;
+    border: none;
+    padding: 0 18px;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 0 5px 5px 0;
+    font-size: 16px;
+}
+
+/* Right Menu */
+.menu {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #000;
+    font-size: 14px;
+}
+
+.menu a i {
+    margin-right: 5px;
+}
+
+/* Cart */
+.cart {
+    position: relative;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: #28a745;
+    color: #fff;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 50%;
+}
+/* /=================New Header End=================/ */
+/* /=================New Nabvar Start=================/ */
+.site-nav {
+    background: #28a745;
+    padding: 0 20px;
+}
+
+.menu {
+    list-style: none;
+    display: flex;
+}
+
+.menu > li {
+    position: relative;
+}
+
+/* TOP MENU LINK */
+.menu > li > a {
+    color: #fff;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;  /* TEXT LEFT - ICON RIGHT */
+    align-items: center;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+/* ICON STYLE */
+.menu > li > a i {
+    margin-left: 8px;
+    font-size: 12px;
+    transition: 0.3s;
+}
+
+/* ROTATE ICON ON HOVER */
+.menu > li:hover > a i {
+    transform: rotate(180deg);
+}
+
+/* ================= DROPDOWN ================= */
+
+.sub-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 200px;
+    background: #fff;
+    list-style: none;
+    border: 1px solid #ddd;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: 0.3s ease;
+    z-index: 999;
+}
+
+/* SHOW FIRST DROPDOWN */
+.menu > li:hover > .sub-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* SUBMENU LINKS */
+.sub-menu li {
+    position: relative;
+}
+
+.sub-menu li a {
+    display: block;
+    padding: 10px 15px;
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.sub-menu li:hover {
+    background: #f2f2f2;
+}
+
+/* SECOND & THIRD LEVEL */
+.sub-menu .sub-menu {
+    top: 0;
+    left: 100%;
+}
+
+/* SHOW NESTED */
+.sub-menu li:hover > .sub-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+/* /=================New Navbar End=================/ */

@@ -15,10 +15,6 @@ Route::get('/frontend-register', [FrontendController::class, 'register'])->name(
 Route::get('/contact', [FrontendController::class, 'contact'])->name('contact');
 Route::get('/listing', [FrontendController::class, 'listing'])->name('listing');
 Route::get('/how-to-work', [FrontendController::class, 'howtoWork'])->name('how.to.work');
-// // //==============Vendor register ======//
-// // Route::post('/vendor-register',[FrontendController::class,'vendorRegister'])->name('vendor.register');
-// // //==============Vendor login ==========//
-// // Route::post('/vendor-login',[FrontendController::class,'vendorLogin'])->name('vendor.login');
 // //=============Order ==============//
 Route::post('/frontend-order/{id}', [OrderController::class, 'order'])->name('frontend.order');
 //========Contact=======================//
