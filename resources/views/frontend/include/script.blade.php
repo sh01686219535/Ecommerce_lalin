@@ -3,6 +3,38 @@
 
     <!-- Toastr JS -->
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> --}}
+    {{-- slider --}}
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper(".categorySwiper", {
+            slidesPerView: 4,
+            spaceBetween: 20,
+            loop: true,
+            autoplay: {
+                delay: 2500,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            breakpoints: {
+                320: {
+                    slidesPerView: 1
+                },
+                576: {
+                    slidesPerView: 2
+                },
+                768: {
+                    slidesPerView: 3
+                },
+                992: {
+                    slidesPerView: 4
+                }
+            }
+        });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
     {!! ToastMagic::scripts() !!}
@@ -43,6 +75,22 @@
             }
         });
     </script>
+    {{-- scrollbar --}}
+<script>
+    
+const scrollTop = document.querySelector('.scrolltop');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 200) {
+        scrollTop.style.display = 'flex';
+    } else {
+        scrollTop.style.display = 'none';
+    }
+});
+
+scrollTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+</script>
     {{-- //toaster --}}
     {{-- <script>
         toastr.options = {
