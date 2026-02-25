@@ -34,29 +34,30 @@
                           </p>
                       </a>
                   </li>
+           
                   <li class="nav-item">
-                      <a href="{{route('admin_advertisement.index')}}" class="nav-link">
-                          <i class="fas fa-bullhorn nav-icon"></i>
+                      <a href="{{route('subCategory.index')}}" class="nav-link">
+                          <i class="fas fa-list nav-icon"></i>
                           <p>
-                              Advertisement
+                              SubCategory
                               <i class="right fas fa-angle-right"></i>
                           </p>
                       </a>
                   </li>
                   <li class="nav-item">
-                      <a href="{{route('vendor.index')}}" class="nav-link">
-                          <i class="fas fa-user-tie nav-icon"></i>
+                      <a href="{{route('childCategory.index')}}" class="nav-link">
+                          <i class="fas fa-list nav-icon"></i>
                           <p>
-                              Vendor
+                              ChildCategory
                               <i class="right fas fa-angle-right"></i>
                           </p>
                       </a>
                   </li>
                   <li class="nav-item">
-                      <a href="{{route('admin_property.index')}}" class="nav-link">
+                      <a href="{{route('product.index')}}" class="nav-link">
                           <i class="fas fa-home nav-icon"></i>
                           <p>
-                              Property
+                              Product
                               <i class="right fas fa-angle-right"></i>
                           </p>
                       </a>

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin\Advertisement;
 use App\Models\Admin\Category;
+use App\Models\Admin\ChildCategory;
 use App\Models\Admin\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,10 +13,7 @@ class FrontendController extends Controller
 {
     public function home(Request $request)
     {
-        // Advertisement section
-        $advertisementTop = Advertisement::where('place', 'top')->first();
-        $advertisementMiddle = Advertisement::where('place', 'middle')->first();
-        $advertisementBottom = Advertisement::where('place', 'bottom')->first();
+
 
         // Dynamic slider section (last 6 properties)
         $propertySlider = Property::latest()->take(6)->get();
@@ -67,15 +64,18 @@ class FrontendController extends Controller
 
         // Get final result
         $property = $query->orderBy('id', 'desc')->get();
-
+        //menu dynamic
+        $categories = Category::with(['subCategories.childCategories'])->get();
+        $menu = ChildCategory::with(['category', 'subCategory'])
+            ->latest()
+            ->get();
         // Return view
         return view('frontend.home.home', compact(
             'category',
+            'categories',
             'propertySlider',
             'property',
-            'advertisementTop',
-            'advertisementMiddle',
-            'advertisementBottom'
+            'menu'
         ));
     }
 
@@ -182,7 +182,8 @@ class FrontendController extends Controller
         return view('frontend.howtoWork');
     }
     //userView
-    public function userView(){
+    public function userView()
+    {
         return view('frontend.home.userLogin');
     }
 }

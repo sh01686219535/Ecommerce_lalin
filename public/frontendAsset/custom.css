@@ -921,7 +921,6 @@ header p {
 }
 
 .product_item:hover {
-    transform: translateY(-6px);
     box-shadow: 0 8px 25px rgba(0,0,0,0.15);
     border-color: #198754;   
 }
@@ -959,7 +958,7 @@ header p {
 }
 
 .product_item:hover .pro_img img {
-    transform: scale(1.08);
+    transform: scale(1.1);
     
 }
 

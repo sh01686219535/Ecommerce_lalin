@@ -1,12 +1,13 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\AdvertisementController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ChildCategoryController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProfileController;
-use App\Http\Controllers\Admin\PropertyController;
+use App\Http\Controllers\SubCategoryController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -19,12 +20,14 @@ Route::prefix('admin')->group(function(){
     Route::get('login',[AdminController::class,'login'])->name('admin.login');
     Route::post('login-store',[AdminController::class,'adminloginStore'])->name('admin.login.store');
     Route::get('logout',[AdminController::class,'AdminLogout'])->name('admin.logout');
-    //==============property===============//
-    Route::resource('admin_property', PropertyController::class);
+    //==============Product===============//
+    Route::resource('product', ProductController::class);
     //==============Category==============//
     Route::resource('category',CategoryController::class);
-    //===============advertisement=========//
-    Route::resource('admin_advertisement',AdvertisementController::class);
+    //==============subCategory==============//
+    Route::resource('subCategory',SubCategoryController::class);
+    //==============childCategory==============//
+    Route::resource('childCategory',ChildCategoryController::class);
     //===========Contact==============//
     Route::get('/contact-index', [ContactController::class, 'index'])->name('contact.index');
     Route::post('/contact-delete/{id}', [ContactController::class, 'delete'])->name('contact.delete');
@@ -42,4 +45,6 @@ Route::prefix('admin')->group(function(){
     //===========vendor list==============//
     Route::get('/vendor-index', [AdminController::class, 'vendorList'])->name('vendor.index');
     Route::get('/vendor-delete/{id}', [AdminController::class, 'vendorDelete'])->name('vendor.delete');
+    //===========AJAX==============//
+    // Route::get('/get-subcategories/{category_id}',  [SubCategoryController::class, 'getSubCategory'])->name('get.subcategories');
 });
