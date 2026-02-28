@@ -18,9 +18,8 @@ class AdminController extends Controller
     public function dashboard(){
         $order = Order::count();
         $property = Property::count();
-        $vendor = Vendor::count();
         $contact = Contact::count();
-        return view('admin.home.home',compact('order','property','vendor','contact'));
+        return view('admin.home.home',compact('order','property','contact'));
     } 
     //login
     public function login(){

@@ -54,6 +54,15 @@
                       </a>
                   </li>
                   <li class="nav-item">
+                      <a href="{{route('brand.index')}}" class="nav-link">
+                          <i class="fas fa-list nav-icon"></i>
+                          <p>
+                              Brand
+                              <i class="right fas fa-angle-right"></i>
+                          </p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
                       <a href="{{route('product.index')}}" class="nav-link">
                           <i class="fas fa-home nav-icon"></i>
                           <p>

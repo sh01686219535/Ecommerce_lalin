@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ChildCategoryController;
 use App\Http\Controllers\Admin\ContactController;
@@ -28,6 +29,8 @@ Route::prefix('admin')->group(function(){
     Route::resource('subCategory',SubCategoryController::class);
     //==============childCategory==============//
     Route::resource('childCategory',ChildCategoryController::class);
+    //==============brand==============//
+    Route::resource('brand',BrandController::class);
     //===========Contact==============//
     Route::get('/contact-index', [ContactController::class, 'index'])->name('contact.index');
     Route::post('/contact-delete/{id}', [ContactController::class, 'delete'])->name('contact.delete');

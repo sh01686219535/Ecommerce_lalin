@@ -48,7 +48,7 @@
                             <div class="icon">
                                 <i class="ion ion-stats-bars"></i>
                             </div>
-                            <a href="{{route('admin_property.index')}}" class="small-box-footer">More info <i
+                            <a href="#" class="small-box-footer">More info <i
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
@@ -57,14 +57,14 @@
                         <!-- small box -->
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h3>{{$vendor ?? 0}}</h3>
+                                <h3>0</h3>
 
                                 <p>Total Vendor</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-person-add"></i>
                             </div>
-                            <a href="{{route('vendor.index')}}" class="small-box-footer">More info <i
+                            <a href="#" class="small-box-footer">More info <i
                                     class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>

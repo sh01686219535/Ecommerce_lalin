@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\OrderController;
@@ -24,6 +25,8 @@ Route::get('/user-view',[FrontendController::class,'userView'])->name('user.view
 //======== Frontend route end=============//
 //===========AJAX==============//
 Route::get('/get-subcategories/{category_id}',  [SubCategoryController::class, 'getSubCategory'])->name('get.subcategories');
+Route::get('/get-subcategories/{category_id}', [ProductController::class, 'getSubcategories']);
+Route::get('/get-childcategories/{subcategory_id}', [ProductController::class, 'getChildCategories']);
 require __DIR__ . '/vendor.php';
 require __DIR__ . '/admin.php';
 require __DIR__ . '/user.php';

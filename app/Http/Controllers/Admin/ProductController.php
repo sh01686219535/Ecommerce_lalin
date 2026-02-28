@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Category;
+use App\Models\Admin\ChildCategory;
+use App\Models\Subcategory;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -20,7 +23,11 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::latest()->get();
+        $sunCategories = Subcategory::with('category')->latest()->get();
+        $childCategories = ChildCategory::with('category', 'subCategory')->latest()->get();
+
+        return view('admin.product.create', compact('categories', 'sunCategories', 'childCategories'));
     }
 
     /**
@@ -61,5 +68,17 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function getSubcategories($category_id)
+    {
+        $subcategories = Subcategory::where('category_id', $category_id)->get();
+        return response()->json($subcategories);
+    }
+
+    public function getChildCategories($subcategory_id)
+    {
+        $childcategories = ChildCategory::where('subcategory_id', $subcategory_id)->get();
+        return response()->json($childcategories);
     }
 }
