@@ -28,6 +28,8 @@
                                         <tr>
                                             <th>Si</th>
                                             <th>Cateogry title</th>
+                                            <th>Cateogry Image</th>
+                                            <th>Cateogry Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -37,6 +39,16 @@
                                             <tr>
                                                 <td>#{{ $i++ }}</td>
                                                 <td>{{ $data->category }}</td>
+                                                <td>
+                                                    <img src="{{asset($data->image)}}" width="50" height="50" alt="">
+                                                </td>
+                                                <td>
+                                                    @if ($data->status == 1)
+                                                        <span class="badge  bg-success">Active</span>
+                                                    @else
+                                                        <span class="badge  bg-danger">Inactive</span>
+                                                    @endif
+                                                </td>
                                                 <td class="d-flex">
                                                     <a href="{{ route('category.edit', $data->id) }}"
                                                         class="btn btn-info me-2">

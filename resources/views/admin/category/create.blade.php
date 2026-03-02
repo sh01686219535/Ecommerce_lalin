@@ -29,11 +29,35 @@
                                         @csrf
                                         <div class="form-group">
                                             <label for="category">Category Title</label>
-                                            <input type="text" id="category" class="form-control @error('category') is-invalid  @enderror"
-                                                placeholder="Enter category Title" name="category" value="{{old('category')}}">
-                                                @error('category')
-                                                    <div class="invalid-feedback">{{$message}}</div>
-                                                @enderror
+                                            <input type="text" id="category"
+                                                class="form-control @error('category') is-invalid  @enderror"
+                                                placeholder="Enter category Title" name="category"
+                                                value="{{ old('category') }}">
+                                            @error('category')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="image">Category Image</label>
+                                            <input type="file" id="image"
+                                                class="form-control @error('image') is-invalid  @enderror" name="image"
+                                                value="{{ old('image') }}">
+                                            @error('image')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="status">Status</label>
+                                            <select id="status"
+                                                class="form-control @error('status') is-invalid  @enderror" name="status"
+                                                value="{{ old('status') }}">
+                                                <option value="">Select Status</option>
+                                                <option value="1">Active</option>
+                                                <option value="0">Inactive</option>
+                                            </select>
+                                            @error('status')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <button type="submit" class="btn btn-success">Submit</button>
                                     </form>

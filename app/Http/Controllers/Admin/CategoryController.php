@@ -37,6 +37,14 @@ class CategoryController extends Controller
         ]);
         $category = new Category();
         $category->category = $request->category;
+        $category->status = $request->status;
+          // Single Image
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('categoryImages'), $imageName);
+            $category->image = 'categoryImages/' . $imageName;
+        }
         $category->save();
         ToastMagic::success('Category Created successfully!');
         return redirect()->route('category.index');
@@ -66,6 +74,17 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
         $category->category = $request->category;
+        $category->status = $request->status;
+          // Single Image
+        if ($request->hasFile('image')) {
+              if ($category->image && file_exists(public_path($category->image))) {
+                unlink(public_path($category->image));
+            }
+            $image = $request->file('image');
+            $imageName = uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('categoryImages'), $imageName);
+            $category->image = 'categoryImages/' . $imageName;
+        }
         $category->save();
         ToastMagic::success('Category Updated successfully!');
         return redirect()->route('category.index');
@@ -77,6 +96,10 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         $category = Category::findOrFail($id);
+        // Delete single image
+        if ($category->image && file_exists(public_path($category->image))) {
+            unlink(public_path($category->image));
+        }
         $category->delete();
         ToastMagic::info('Category Deleted successfully!');
         return back();
