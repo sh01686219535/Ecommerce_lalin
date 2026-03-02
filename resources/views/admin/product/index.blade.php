@@ -3,7 +3,7 @@
     Product
 @endsection
 @section('content')
-<div class="content-wrapper ">
+    <div class="content-wrapper ">
         <section class="content ">
             <div class="container-fluid my-5">
                 <div class="row">
@@ -17,12 +17,10 @@
                                     <thead>
                                         <tr>
                                             <th>Si</th>
+                                            <th>Name</th>
                                             <th>Price</th>
-                                            <th>Bedroom</th>
-                                            <th>Bathroom</th>
-                                            <th>Location</th>
-                                            <th>Description</th>
                                             <th>Image</th>
+                                            <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -30,22 +28,28 @@
                                         @php
                                             $i = 1;
                                         @endphp
-                                        {{-- @foreach ($property as $data)
+                                        @foreach ($product as $data)
                                             <tr>
                                                 <td>#{{ $i++ }}</td>
+                                                <td>{{ $data->name }}</td>
                                                 <td>{{ $data->price }}</td>
-                                                <td>{{ $data->bedroom }}</td>
-                                                <td>{{ $data->bathroom }}</td>
-                                                <td>{{ $data->location }}</td>
-                                                <td>{{ Str::limit($data->description, 20) }}</td>
                                                 <td>
                                                     <img src="{{ asset($data->image) }}" width="50" height="50"
                                                         alt="">
                                                 </td>
+                                                <td>
+                                                    @if ($data->status == 1)
+                                                        <span class="badge bg-success">Active</span>
+                                                    @else
+                                                        <span class="badge bg-danger">Inactive</span>
+                                                    @endif
+
+                                                </td>
                                                 <td class="d-flex">
-                                                    <a href="{{route('admin_property.edit',$data->id)}}" class="btn btn-info"><i
+                                                    <a href="{{ route('product.edit', $data->id) }}" class="btn btn-info"><i
                                                             class="fa-solid fa-pen-to-square"></i></a>
-                                                    <form class="badge" action="{{ route('admin_property.destroy', $data->id) }}" method="post">
+                                                    <form class="badge" action="{{ route('product.destroy', $data->id) }}"
+                                                        method="post">
                                                         @csrf
                                                         @method('delete')
                                                         <button class="btn btn-danger " type="submit"
@@ -55,7 +59,7 @@
                                                     </form>
                                                 </td>
                                             </tr>
-                                        @endforeach --}}
+                                        @endforeach
 
                                     </tbody>
                                 </table>
@@ -67,5 +71,3 @@
         </section>
     </div>
 @endsection
-
-    
