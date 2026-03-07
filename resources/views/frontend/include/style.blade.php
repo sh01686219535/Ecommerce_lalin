@@ -20,6 +20,8 @@
     <!-- Custom Script -->
     <script defer src="script.js"></script>
     @stack('css')
+    @stack('js')
+
 </head>
 
 <body>

@@ -16,7 +16,7 @@
                             <div class="swiper-slide">
                                 <div class="cat_item">
                                     <div class="cat_img">
-                                        <a href="#">
+                                        <a href="{{route('product.details',$data->id)}}">
                                             <img src="{{ asset($data->image) }}" alt="{{ $data->category }}">
                                         </a>
                                     </div>
@@ -35,19 +35,19 @@
             </div>
         </div>
         @endif
-        {{-- Hot Deal --}}
-        @if ($hotDeals->isNotEmpty())
+        {{-- featured_product --}}
+        @if ($featured_product->isNotEmpty())
         <div class="col-md-12 col-lg-12 col-sm-6 col-xl-12">
             <div class="row">
                 <div class="top-category-header ">
-                    <h2>Hot Deal</h2>
+                    <h2>Featured Product</h2>
                 </div>
                 <div class="">
                     <div class="swiper categorySwiper">
                         <div class="swiper-wrapper ">
                             <div class="swiper-slide">
                                 <div class="product_item wist_item">
-                                    @foreach ($hotDeals as $data)
+                                    @foreach ($featured_product as $data)
                                         <div class="product_item_inner">
                                             <div class="sale-badge">
                                                 <div class="sale-badge-inner">
@@ -63,7 +63,7 @@
                                             </div>
 
                                             <div class="pro_img">
-                                                <a href="#">
+                                                <a href="{{route('product.details',$data->id)}}">
                                                     <img src="{{ asset($data->image) }}" alt="Symphony A30">
                                                 </a>
                                             </div>
@@ -107,18 +107,18 @@
             </div>
         </div>
         @endif
-        {{-- Gadgets & Electronics --}}
-        @if ($product_gadgets_electronics->isNotEmpty())
+        {{-- top Selling Product --}}
+        @if ($top_selling_Product->isNotEmpty())
         <div class="col-md-12 col-lg-12 col-sm-6 col-xl-12">
             <div class="row">
                 <div class="top-category-header ">
-                    <h2>Gadgets & Electronics</h2>
+                    <h2>Top Selling Product</h2>
                 </div>
                 <div class="row product-grid">
                     <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
                         <div class="product_item">
                              <div class="product_item wist_item">
-                                    @foreach ($product_gadgets_electronics as $data)
+                                    @foreach ($top_selling_Product as $data)
                                         <div class="product_item_inner">
                                             <div class="sale-badge">
                                                 <div class="sale-badge-inner">
@@ -134,7 +134,7 @@
                                             </div>
 
                                             <div class="pro_img">
-                                                <a href="#">
+                                                <a href="{{route('product.details',$data->id)}}">
                                                     <img src="{{ asset($data->image) }}" alt="Symphony A30">
                                                 </a>
                                             </div>
@@ -174,18 +174,18 @@
             </div>
         </div>
         @endif
-        {{-- Mobile --}}
-        @if ($product_mobile_phone->isNotEmpty())
+        {{-- new_launch_product --}}
+        @if ($new_launch_product->isNotEmpty())
         <div class="col-md-12 col-lg-12 col-sm-6 col-xl-12">
             <div class="row">
                 <div class="top-category-header ">
-                    <h2>Mobile Phone</h2>
+                    <h2>New Launch Product</h2>
                 </div>
                 <div class="row product-grid">
                     <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
                         <div class="product_item">
                              <div class="product_item wist_item">
-                                         @foreach ($product_mobile_phone as $data)
+                                         @foreach ($new_launch_product as $data)
                                         <div class="product_item_inner">
                                             <div class="sale-badge">
                                                 <div class="sale-badge-inner">
@@ -201,7 +201,7 @@
                                             </div>
 
                                             <div class="pro_img">
-                                                <a href="#">
+                                                <a href="{{route('product.details',$data->id)}}">
                                                     <img src="{{ asset($data->image) }}" alt="Symphony A30">
                                                 </a>
                                             </div>
@@ -241,19 +241,19 @@
             </div>
         </div>
         @endif
-        {{-- Watch --}}
-        @if ($product_watch->isNotEmpty())
+        {{-- most_popular_product --}}
+        @if ($most_popular_product->isNotEmpty())
         <div class="col-md-12 col-lg-12 col-sm-6 col-xl-12">
             <div class="row">
                 <div class="top-category-header">
-                    <h2>Watch</h2>
+                    <h2>Most Popular Product</h2>
                 </div>
                 <div class="row product-grid">
                     <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
                         <div class="product_item">
                             <div class="product_item">
                              <div class="product_item wist_item">
-                                    @foreach ($product_watch as $data)
+                                    @foreach ($most_popular_product as $data)
                                         <div class="product_item_inner">
                                             <div class="sale-badge">
                                                 <div class="sale-badge-inner">
@@ -269,7 +269,7 @@
                                             </div>
 
                                             <div class="pro_img">
-                                                <a href="#">
+                                                <a href="{{route('product.details',$data->id)}}">
                                                     <img src="{{ asset($data->image) }}" alt="Symphony A30">
                                                 </a>
                                             </div>
@@ -310,12 +310,12 @@
             </div>
         </div>
         @endif
-        {{-- Winter Collection --}}
-        @if ($product_winter_collection->isNotEmpty())
+        {{-- Regular Product --}}
+        @if ($regular_product->isNotEmpty())
         <div class="col-md-12 col-lg-12 col-sm-6 col-xl-12">
             <div class="row">
                 <div class="top-category-header ">
-                    <h2>Winter Collection</h2>
+                    <h2>Regular Product</h2>
                 </div>
 
                 <div class="row product-grid">
@@ -324,7 +324,7 @@
                             <div class="product_item">
                              <div class="product_item wist_item">
   
-                                        @foreach ($winter_collection as $data)
+                                        @foreach ($regular_product as $data)
                                         <div class="product_item_inner">
                                             <div class="sale-badge">
                                                 <div class="sale-badge-inner">
@@ -340,7 +340,7 @@
                                             </div>
 
                                             <div class="pro_img">
-                                                <a href="#">
+                                                <a href="{{route('product.details',$data->id)}}">
                                                     <img src="{{ asset($data->image) }}" alt="Symphony A30">
                                                 </a>
                                             </div>

@@ -240,20 +240,39 @@
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-md-8">
+                                                <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>Youtube Video URL</label>
                                                         <input type="text" name="video_url" class="form-control"
                                                             value="{{ old('video_url', $product->video_url) }}">
                                                     </div>
                                                 </div>
-
-                                                <div class="col-md-4">
-                                                    <div class="form-check form-switch mt-4">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            name="is_featured" value="1"
-                                                            {{ old('is_featured', $product->is_featured) ? 'checked' : '' }}>
-                                                        <label class="form-check-label">Featured Product</label>
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="is_featured" class="form-label">Product Type</label>
+                                                        <select name="is_featured" id="is_featured"
+                                                            class="form-control @error('is_featured') is-invalid @enderror">
+                                                            <option value="">Select Product Type</option>
+                                                            <option value="featured"
+                                                                {{ old('is_featured', $product->is_featured) == 'featured' ? 'selected' : '' }}>
+                                                                Featured Product
+                                                            </option>
+                                                            <option value="top_selling"
+                                                                {{ old('is_featured', $product->is_featured) == 'top_selling' ? 'selected' : '' }}>
+                                                                Top Selling Product
+                                                            </option>
+                                                            <option value="most_popular"
+                                                                {{ old('is_featured', $product->is_featured) == 'most_popular' ? 'selected' : '' }}>
+                                                                Most Popular Product
+                                                            </option>
+                                                            <option value="new_launch"
+                                                                {{ old('is_featured', $product->is_featured) == 'new_launch' ? 'selected' : '' }}>
+                                                                Newly Launched Product
+                                                            </option>
+                                                        </select>
+                                                        @error('is_featured')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>

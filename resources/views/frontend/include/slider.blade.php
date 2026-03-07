@@ -2,7 +2,7 @@
     <div class="slider-track">
         @foreach ($productSlider as $slider)
             <div class="slide">
-                <a href="{{ route('property.details', $slider->id) }}">
+                <a href="{{route('product.details',$slider->id)}}">
                     <img src="{{ asset($slider->image) }}">
                     <div class="text">
                         <h5 style="font-size: 28px">{{ $slider->name }}</h4>

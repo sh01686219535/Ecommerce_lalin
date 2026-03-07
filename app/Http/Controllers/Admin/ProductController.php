@@ -75,7 +75,7 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->status = $request->status;
         $product->video_url = $request->video_url;
-        $product->is_featured = $request->is_featured ? 1 : 0;
+        $product->is_featured = $request->is_featured;
 
         // Single Image
         if ($request->hasFile('image')) {
@@ -166,7 +166,7 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->status = $request->status;
         $product->video_url = $request->video_url;
-        $product->is_featured = $request->is_featured ? 1 : 0;
+        $product->is_featured = $request->is_featured;
 
         /***********************
          * Single Image Upload
@@ -257,5 +257,10 @@ class ProductController extends Controller
     {
         $childcategories = ChildCategory::where('subcategory_id', $subcategory_id)->get();
         return response()->json($childcategories);
+    }
+    //productDetails
+    public function productDetails($id){
+        $productDeatils = Product::with('category','subCategory','childCategory','brand')->findOrFail($id);
+        return view('frontend.product.product_details',compact('productDeatils'));
     }
 }

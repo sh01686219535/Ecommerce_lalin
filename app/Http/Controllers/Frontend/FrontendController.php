@@ -22,36 +22,40 @@ class FrontendController extends Controller
             ->latest()
             ->get();
         // Categories
-        $gadgets_electronics = Category::where('status', 1)
-                    ->where('category', 'Gadgets & Electronics')
-                    ->pluck('id');
-        $mobile_phone = Category::where('status', 1)
-                    ->where('category', 'Mobile Phone')
-                    ->pluck('id');
-        $watch = Category::where('status', 1)
-                    ->where('category', 'Watch')
-                    ->pluck('id');
-        $winter_collection = Category::where('status', 1)
-                    ->where('category', 'Winter Collection')
-                    ->pluck('id');
+        // $gadgets_electronics = Category::where('status', 1)
+        //             ->where('category', 'Gadgets & Electronics')
+        //             ->pluck('id');
+        // $mobile_phone = Category::where('status', 1)
+        //             ->where('category', 'Mobile Phone')
+        //             ->pluck('id');
+        // $watch = Category::where('status', 1)
+        //             ->where('category', 'Watch')
+        //             ->pluck('id');
+        // $winter_collection = Category::where('status', 1)
+        //             ->where('category', 'Winter Collection')
+        //             ->pluck('id');
         // Gadgets & Electronics
-        $product_gadgets_electronics = Product::where('status', 1)
-            ->whereIn('category_id', $gadgets_electronics) // use whereIn for multiple IDs
+        $top_selling_Product = Product::where('status', 1)
+            ->where('is_featured', 'top_selling') // use whereIn for multiple IDs
             ->latest()
             ->get();
         // Mobile Phone
-        $product_mobile_phone = Product::where('status', 1)
-            ->whereIn('category_id', $mobile_phone) // use whereIn for multiple IDs
+        $featured_product = Product::where('status', 1)
+            ->where('is_featured', 'featured') // use whereIn for multiple IDs
             ->latest()
             ->get();
         // Watch
-        $product_watch = Product::where('status', 1)
-            ->whereIn('category_id', $watch) // use whereIn for multiple IDs
+        $most_popular_product = Product::where('status', 1)
+            ->where('is_featured', 'most_popular') // use whereIn for multiple IDs
             ->latest()
             ->get();
         // Winter Collection
-        $product_winter_collection = Product::where('status', 1)
-            ->whereIn('category_id', $winter_collection) // use whereIn for multiple IDs
+        $new_launch_product = Product::where('status', 1)
+            ->where('is_featured', 'new_launch') // use whereIn for multiple IDs
+            ->latest()
+            ->get();
+        // Regular Product
+        $regular_product = Product::where('status', 1)
             ->latest()
             ->get();
         // Dynamic slider section (last 6 properties)
@@ -74,10 +78,11 @@ class FrontendController extends Controller
             'productSlider',
             'menu',
             'hotDeals',
-            'product_gadgets_electronics',
-            'product_mobile_phone',
-            'product_watch',
-            'product_winter_collection'
+            'top_selling_Product',
+            'featured_product',
+            'most_popular_product',
+            'new_launch_product',
+            'regular_product'
         ));
     }
 

@@ -4,7 +4,6 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\OrderController;
-use App\Http\Controllers\Frontend\PropertyDetailsController;
 use App\Http\Controllers\SubCategoryController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,7 +18,7 @@ Route::post('/frontend-order/{id}', [OrderController::class, 'order'])->name('fr
 //========Contact=======================//
 Route::post('/contact-store', [ContactController::class, 'contactStore'])->name('contact.store');
 //property details
-Route::get('/property/details/{id}',[PropertyDetailsController::class,'propertyDetails'])->name('property.details');
+Route::get('/product/details/{id}',[ProductController::class,'productDetails'])->name('product.details');
 //================User Login=================//
 Route::get('/user-view',[FrontendController::class,'userView'])->name('user.view');
 //======== Frontend route end=============//

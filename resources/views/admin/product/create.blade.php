@@ -215,7 +215,7 @@
                                                 @enderror
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-8">
+                                                <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="video_url">Youtube Video URL</label>
                                                         <input type="text" id="video_url"
@@ -227,13 +227,20 @@
                                                         @enderror
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-6">
                                                     <div class="form-check form-switch mb-3">
-                                                        <input class="form-check-input" type="checkbox" id="is_featured"
-                                                            name="is_featured" value="1"
-                                                            {{ old('is_featured') ? 'checked' : '' }}>
-                                                        <label class="form-check-label" for="is_featured">Featured
-                                                            Product</label>
+                                                        <label for="is_featured">Featured Product</label>
+                                                        <select name="is_featured" id="is_featured" class="form-control @error('is_featured')
+                                                            @enderror">
+                                                            <option value="">Select Featured</option>
+                                                            <option value="featured">Featured Product</option>
+                                                            <option value="top_selling">Top Selling Product</option>
+                                                            <option value="most_popular">Most Popular Product</option>
+                                                            <option value="new_launch">Newly Launched Product</option>
+                                                        </select>
+                                                        @error('is_featured')
+                                                            <div class="invalid-feedback">{{$message}}</div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>

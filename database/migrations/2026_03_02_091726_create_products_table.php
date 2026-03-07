@@ -40,7 +40,7 @@ return new class extends Migration
 
             $table->boolean('status')->default(1);
             $table->text('video_url')->nullable();
-            $table->boolean('is_featured')->default(0);
+            $table->string('is_featured')->nullable();
             $table->timestamps();
         });
     }
