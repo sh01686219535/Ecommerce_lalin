@@ -76,21 +76,23 @@
         });
     </script>
     {{-- scrollbar --}}
-<script>
-    
-const scrollTop = document.querySelector('.scrolltop');
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 200) {
-        scrollTop.style.display = 'flex';
-    } else {
-        scrollTop.style.display = 'none';
-    }
-});
+    <script>
+        const scrollTop = document.querySelector('.scrolltop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 200) {
+                scrollTop.style.display = 'flex';
+            } else {
+                scrollTop.style.display = 'none';
+            }
+        });
 
-scrollTop.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-});
-</script>
+        scrollTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
     {{-- //toaster --}}
     {{-- <script>
         toastr.options = {
@@ -124,8 +126,68 @@ scrollTop.addEventListener('click', () => {
             }
         @endif
     </script> --}}
+    <!-- Include at the end of body -->
+    
+<script>
+function refreshCartCount() {
+    fetch('/cart-count')
+        .then(res => res.json())
+        .then(data => {
+            document.querySelectorAll('#cartCount').forEach(el => {
+                el.textContent = data.cartCount;
+            });
+        });
+}
 
+// Run on page load and on pageshow (back button)
+window.addEventListener('DOMContentLoaded', refreshCartCount);
+window.addEventListener('pageshow', refreshCartCount);
 
+function cartUpdate(action, productId, inputEl = null) {
+    let url = '';
+    let data = {};
+
+    if (action === 'increment' || action === 'decrement') {
+        const qty = action === 'increment'
+            ? parseInt(inputEl.value) + 1
+            : Math.max(1, parseInt(inputEl.value) - 1);
+
+        url = `/cart/update/${productId}`;
+        data = { qty };
+    } else if (action === 'remove') {
+        url = `/cart/remove/${productId}`;
+    }
+
+    fetch(url, {
+        method: action === 'remove' ? 'GET' : 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: action === 'remove' ? null : JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(res => {
+        // Update order page table
+        if (action === 'remove') {
+            document.getElementById(`cartRow-${productId}`).remove();
+        } else {
+            inputEl.value = res.qty;
+            document.getElementById(`total-${productId}`).textContent = res.total_price;
+        }
+
+        // Update cart count on all pages dynamically
+        document.querySelectorAll('#cartCount').forEach(el => {
+            el.textContent = res.cartCount;
+        });
+
+        // Optional: alert if cart empty
+        if(res.cartCount === 0){
+            // Do something, like hide order button
+        }
+    });
+}
+</script>
     @stack('js')
     </body>
 

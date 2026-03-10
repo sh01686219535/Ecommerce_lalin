@@ -36,7 +36,7 @@
 
     </nav>
 </header> --}}
-<header class="top-header">
+{{-- <header class="top-header">
     <div class="header-container">
 
         <!-- Logo -->
@@ -61,7 +61,45 @@
             <a href="#"><i class="far fa-user"></i> Login / Sign Up</a>
             <div class="cart">
                 <i class="fas fa-shopping-bag"></i>
-                <span class="cart-count">0</span>
+                <span class="cart-count" id="cartCount">1</span>
+            </div>
+        </div>
+
+
+    </div>
+</header> --}}
+
+
+<header class="top-header">
+    <div class="header-container">
+
+        <!-- Logo -->
+        <div class="logo">
+            <div class="logo-text">
+                <a href="{{ url('/') }}">
+                    <img src="{{ asset('frontendAsset/images/logo.webp') }}" width="200" height="60">
+                </a>
+            </div>
+        </div>
+
+        <!-- Search Box -->
+        <div class="search-box">
+            <input type="text" placeholder="Search Product...">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+
+        <!-- Right Menu -->
+        <div class="menu">
+            <a href="#"><i class="fas fa-truck"></i> Track Order</a>
+            @if (Auth::guard('user')->check())
+                <span>Welcome, <strong>{{ Auth::guard('user')->user()->name }}</strong></span>
+            @else
+                <a href="{{ route('user.view') }}">Login / Register</a>
+            @endif
+            <!-- header.blade.php -->
+            <div class="cart">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="cart-count" id="cartCount">0</span>
             </div>
         </div>
 

@@ -259,8 +259,15 @@ class ProductController extends Controller
         return response()->json($childcategories);
     }
     //productDetails
-    public function productDetails($id){
-        $productDeatils = Product::with('category','subCategory','childCategory','brand')->findOrFail($id);
-        return view('frontend.product.product_details',compact('productDeatils'));
+    public function productDetails($id)
+    {
+        $productDeatils = Product::with('category', 'subCategory', 'childCategory', 'brand')->findOrFail($id);
+        $productRelated = Product::with('category', 'subCategory', 'childCategory', 'brand')
+            ->where('category_id', $productDeatils->category_id)
+            //  ->where('id', '!=', $id) 
+            ->latest()
+            ->take(8) // limit related product
+            ->get();
+        return view('frontend.product.product_details', compact('productDeatils', 'productRelated'));
     }
 }

@@ -14,7 +14,7 @@ class FrontendController extends Controller
 {
     public function home(Request $request)
     {
-
+        session()->forget('cart');
         // Fetch hot deal products
         $hotDeals = Product::where('status', 1) // active products only
             ->whereNotNull('discount_price')   // must have a discount
@@ -61,8 +61,8 @@ class FrontendController extends Controller
         // Dynamic slider section (last 6 properties)
         $productSlider = Product::latest()->take(6)->get();
 
-       
-        $category = Category::all(); 
+
+        $category = Category::all();
         //menu dynamic
         $categories = Category::with(['subCategories.childCategories'])
             ->where('status', 1)
@@ -70,7 +70,7 @@ class FrontendController extends Controller
         $menu = ChildCategory::with(['category', 'subCategory'])
             ->latest()
             ->get();
-        $category = Category::all(); 
+        $category = Category::all();
         // Return view
         return view('frontend.home.home', compact(
             'category',

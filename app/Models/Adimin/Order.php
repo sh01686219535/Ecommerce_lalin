@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Models\Admin;
+namespace App\Models\Adimin;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
     //
-    protected $guarded = [];
 }
