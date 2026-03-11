@@ -413,7 +413,7 @@
                     .then(res => res.json())
                     .then(data => {
                         document.getElementById('cartCount').textContent = data.cartCount;
-                        alert('Product added to cart');
+                        
                     });
             });
         });
@@ -423,7 +423,7 @@
                 .then(res => res.json())
                 .then(data => {
                     document.getElementById('cartCount').textContent = data.cartCount;
-                    alert('Product added to cart!');
+                    
                 });
         }
     </script>

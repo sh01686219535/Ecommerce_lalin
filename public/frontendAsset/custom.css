@@ -1458,6 +1458,10 @@ footer a:hover {
   padding: 10px 15px;
   cursor: pointer;
   border-radius: 5px;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  width: 49%;
 }
 
 .order-now {
@@ -1467,6 +1471,10 @@ footer a:hover {
   padding: 10px 15px;
   cursor: pointer;
   border-radius: 5px;
+   display: block;
+  text-align: center;
+  text-decoration: none;
+  width: 49%;
 }
 
 .contact {

@@ -23,6 +23,7 @@ Route::post('/contact-store', [ContactController::class, 'contactStore'])->name(
 Route::get('/product/details/{id}',[ProductController::class,'productDetails'])->name('product.details');
 //================Order=================//
 Route::get('/order/{id}',[OrderController::class,'order'])->name('order');
+Route::post('/user/order/{id}',[OrderController::class,'userOrder'])->name('user.order');
 //================Order Cart=================//
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::get('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');

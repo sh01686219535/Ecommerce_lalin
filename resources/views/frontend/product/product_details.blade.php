@@ -72,8 +72,10 @@
                             </div>
 
                             <div class="buttons">
-                                <button class="add-to-cart">কার্টে যোগ করুন</button>
-                                <button class="order-now">অর্ডার করুন</button>
+                                {{-- <button class="add-to-cart">কার্টে যোগ করুন</button> --}}
+                                <a class="add-to-cart" href="">কার্টে যোগ করুন</a>
+                                <a class="order-now" href="{{route('order',$productDeatils->id)}}">অর্ডার করুন</a>
+                                {{-- <button class="order-now">অর্ডার করুন</button> --}}
                             </div>
 
                             <div class="contact">
