@@ -270,4 +270,50 @@ class ProductController extends Controller
             ->get();
         return view('frontend.product.product_details', compact('productDeatils', 'productRelated'));
     }
+    //================All Product View Start=================//
+    //featuredProductView
+    public function featuredProductView()
+    {
+        $featuredProductView = Product::where('status', 1)
+            ->where('is_featured', 'featured')
+            ->latest()
+            ->get();
+        return view('frontend.product.featuredView', compact('featuredProductView'));
+    }
+    //topSellingProductView
+    public function topSellingProductView()
+    {
+        $topSellingProductView = Product::where('status', 1)
+            ->where('is_featured', 'top_selling')
+            ->latest()
+            ->get();
+        return view('frontend.product.topSellingView', compact('topSellingProductView'));
+    }
+    //newLaunchProductView
+    public function newLaunchProductView()
+    {
+        $newLaunchProductView = Product::where('status', 1)
+            ->where('is_featured', 'new_launch')
+            ->latest()
+            ->get();
+        return view('frontend.product.newLaunchView', compact('newLaunchProductView'));
+    }
+    //popularProductView
+    public function popularProductView()
+    {
+        $popularProductView = Product::where('status', 1)
+            ->where('is_featured', 'most_popular')
+            ->latest()
+            ->get();
+        return view('frontend.product.popular', compact('popularProductView'));
+    }
+    //regularProductView
+    public function regularProductView()
+    {
+        $regularProductView = Product::where('status', 1)
+            ->latest()
+            ->get();
+        return view('frontend.product.regular', compact('regularProductView'));
+    }
+    //================All Product View End=================//
 }

@@ -10,7 +10,7 @@
                         <h2>Top Categories</h2>
                     </div>
                     {{-- Top Ctegory Start --}}
-                    <div class="swiper categorySwiper topcategory">
+                    <div class="swiper topcategory">
                         <div class="swiper-wrapper">
                             @foreach ($categories as $data)
                                 <div class="swiper-slide">
@@ -45,9 +45,9 @@
                     <div class="">
                         <div class="swiper categorySwiper">
                             <div class="swiper-wrapper ">
-                                <div class="swiper-slide">
-                                    <div class="product_item wist_item">
-                                        @foreach ($featured_product as $data)
+                                @foreach ($featured_product as $data)
+                                    <div class="swiper-slide">
+                                        <div class="product_item wist_item">
                                             <div class="product_item_inner">
                                                 <div class="sale-badge">
                                                     <div class="sale-badge-inner">
@@ -76,12 +76,15 @@
                                                     <div class="pro_price">
                                                         <p>
                                                             @if ($data->discount_price && $data->discount_price < $data->price)
-                                                                <del>৳ {{ number_format($data->price, 2) }}</del>
-                                                                ৳ {{ number_format($data->discount_price, 2) }}
+                                                                <del class="old-price">৳
+                                                                    {{ number_format($data->price, 2) }}</del>
+                                                                <span class="new-price">৳
+                                                                    {{ number_format($data->discount_price, 2) }}</span>
                                                             @elseif($data->price)
-                                                                ৳ {{ number_format($data->price, 2) }}
+                                                                <span class="new-price">৳
+                                                                    {{ number_format($data->price, 2) }}</span>
                                                             @else
-                                                                <del>৳ 00</del>
+                                                                <del class="old-price">৳ 00</del>
                                                             @endif
                                                         </p>
                                                     </div>
@@ -96,12 +99,13 @@
                                                         করুন</a>
                                                 </div>
                                             </div>
-                                        @endforeach
+
+                                        </div>
                                     </div>
-                                </div>
+                                @endforeach
                             </div>
                             <div class="view-more">
-                                <a href="">View More</a>
+                                <a href="{{ route('featured.product.view') }}">View More</a>
                             </div>
                         </div>
                         <!-- Navigation -->
@@ -151,12 +155,15 @@
                                                 <div class="pro_price">
                                                     <p>
                                                         @if ($data->discount_price && $data->discount_price < $data->price)
-                                                            <del>৳ {{ number_format($data->price, 2) }}</del>
-                                                            ৳ {{ number_format($data->discount_price, 2) }}
+                                                            <del class="old-price">৳
+                                                                {{ number_format($data->price, 2) }}</del>
+                                                            <span class="new-price">৳
+                                                                {{ number_format($data->discount_price, 2) }}</span>
                                                         @elseif($data->price)
-                                                            ৳ {{ number_format($data->price, 2) }}
+                                                            <span class="new-price">৳
+                                                                {{ number_format($data->price, 2) }}</span>
                                                         @else
-                                                            <del>৳ 00</del>
+                                                            <del class="old-price">৳ 00</del>
                                                         @endif
                                                     </p>
                                                 </div>
@@ -176,7 +183,7 @@
                         </div>
                     </div>
                     <div class="text-center mt-3">
-                        <a href="#" class="view-more-btn">View More</a>
+                        <a href="{{route('topSelling.product.view')}}" class="view-more-btn">View More</a>
                     </div>
                 </div>
             </div>
@@ -221,12 +228,15 @@
                                                 <div class="pro_price">
                                                     <p>
                                                         @if ($data->discount_price && $data->discount_price < $data->price)
-                                                            <del>৳ {{ number_format($data->price, 2) }}</del>
-                                                            ৳ {{ number_format($data->discount_price, 2) }}
+                                                            <del class="old-price">৳
+                                                                {{ number_format($data->price, 2) }}</del>
+                                                            <span class="new-price">৳
+                                                                {{ number_format($data->discount_price, 2) }}</span>
                                                         @elseif($data->price)
-                                                            ৳ {{ number_format($data->price, 2) }}
+                                                            <span class="new-price">৳
+                                                                {{ number_format($data->price, 2) }}</span>
                                                         @else
-                                                            <del>৳ 00</del>
+                                                            <del class="old-price">৳ 00</del>
                                                         @endif
                                                     </p>
                                                 </div>
@@ -246,7 +256,7 @@
                         </div>
                     </div>
                     <div class="text-center mt-3">
-                        <a href="#" class="view-more-btn">View More</a>
+                        <a href="{{route('newLaunch.product.view')}}" class="view-more-btn">View More</a>
                     </div>
                 </div>
             </div>
@@ -292,12 +302,15 @@
                                                     <div class="pro_price">
                                                         <p>
                                                             @if ($data->discount_price && $data->discount_price < $data->price)
-                                                                <del>৳ {{ number_format($data->price, 2) }}</del>
-                                                                ৳ {{ number_format($data->discount_price, 2) }}
+                                                                <del class="old-price">৳
+                                                                    {{ number_format($data->price, 2) }}</del>
+                                                                <span class="new-price">৳
+                                                                    {{ number_format($data->discount_price, 2) }}</span>
                                                             @elseif($data->price)
-                                                                ৳ {{ number_format($data->price, 2) }}
+                                                                <span class="new-price">৳
+                                                                    {{ number_format($data->price, 2) }}</span>
                                                             @else
-                                                                <del>৳ 00</del>
+                                                                <del class="old-price">৳ 00</del>
                                                             @endif
                                                         </p>
                                                     </div>
@@ -319,7 +332,7 @@
                         </div>
                     </div>
                     <div class="text-center mt-3">
-                        <a href="#" class="view-more-btn">View More</a>
+                        <a href="{{route('popular.product.view')}}" class="view-more-btn">View More</a>
                     </div>
                 </div>
             </div>
@@ -367,12 +380,15 @@
                                                     <div class="pro_price">
                                                         <p>
                                                             @if ($data->discount_price && $data->discount_price < $data->price)
-                                                                <del>৳ {{ number_format($data->price, 2) }}</del>
-                                                                ৳ {{ number_format($data->discount_price, 2) }}
+                                                                <del class="old-price">৳
+                                                                    {{ number_format($data->price, 2) }}</del>
+                                                                <span class="new-price">৳
+                                                                    {{ number_format($data->discount_price, 2) }}</span>
                                                             @elseif($data->price)
-                                                                ৳ {{ number_format($data->price, 2) }}
+                                                                <span class="new-price">৳
+                                                                    {{ number_format($data->price, 2) }}</span>
                                                             @else
-                                                                <del>৳ 00</del>
+                                                                <del class="old-price">৳ 00</del>
                                                             @endif
                                                         </p>
                                                     </div>
@@ -394,7 +410,7 @@
                         </div>
                     </div>
                     <div class="text-center mt-3">
-                        <a href="#" class="view-more-btn">View More</a>
+                        <a href="{{route('regular.product.view')}}" class="view-more-btn">View More</a>
                     </div>
                 </div>
             </div>
@@ -413,7 +429,7 @@
                     .then(res => res.json())
                     .then(data => {
                         document.getElementById('cartCount').textContent = data.cartCount;
-                        
+
                     });
             });
         });
@@ -423,8 +439,33 @@
                 .then(res => res.json())
                 .then(data => {
                     document.getElementById('cartCount').textContent = data.cartCount;
-                    
+
                 });
         }
+    </script>
+    <script>
+        var swiper = new Swiper(".topcategory", {
+            slidesPerView: 4,
+            spaceBetween: 20,
+            loop: true,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            breakpoints: {
+                320: {
+                    slidesPerView: 2
+                },
+                576: {
+                    slidesPerView: 3
+                },
+                768: {
+                    slidesPerView: 4
+                },
+                992: {
+                    slidesPerView: 5
+                }
+            }
+        });
     </script>
 @endpush

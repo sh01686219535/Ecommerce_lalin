@@ -49,13 +49,16 @@
                             <li class="title stay_conn"><a>Stay Connected</a></li>
                         </ul>
                         <ul class="social_link">
-                            <li class="social_list">
-                                <a class="mobile-social-link"
-                                    href="https://www.facebook.com/bestdigitalservicebd1?mibextid=ZbWKwL"><i
-                                        class="fab fa-facebook-f"></i></a>
+                            <li class="social_list facebook">
+                                <a href="#">
+                                    <i class="fa-brands fa-facebook-f"></i>
+                                </a>
                             </li>
-                            <li class="social_list">
-                                <a class="mobile-social-link" href="emerx@gmail com"><i class="fab fa-google"></i></a>
+
+                            <li class="social_list youtube">
+                                <a href="#">
+                                    <i class="fa-brands fa-youtube"></i>
+                                </a>
                             </li>
                         </ul>
                         <div class="d_app">

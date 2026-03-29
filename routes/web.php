@@ -29,7 +29,12 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::get('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
 Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
 Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
-
+//=============All Product View==============//
+Route::get('/featured/product/view',[ProductController::class,'featuredProductView'])->name('featured.product.view');
+Route::get('/topSelling/product/view',[ProductController::class,'topSellingProductView'])->name('topSelling.product.view');
+Route::get('/newLaunch/product/view',[ProductController::class,'newLaunchProductView'])->name('newLaunch.product.view');
+Route::get('/popular/product/view',[ProductController::class,'popularProductView'])->name('popular.product.view');
+Route::get('/regular/product/view',[ProductController::class,'regularProductView'])->name('regular.product.view');
 Route::get('/cart-count', function() {
     $cart = session('cart', []);
     $cartCount = array_sum(array_column($cart, 'qty'));
