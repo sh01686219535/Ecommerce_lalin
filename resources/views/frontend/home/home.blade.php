@@ -1,456 +1,402 @@
 @extends('frontend.home.master')
+
 @section('content')
     @include('frontend.include.slider')
-    <section class="properties">
-        {{-- Top Categroy --}}
-        @if ($categories->isNotEmpty())
-            <div class="col-md-12 col-lg-12 col-sm-6 col-xl-12">
-                <div class="row">
-                    <div class="top-category-header ">
-                        <h2>Top Categories</h2>
+    @push('css')
+        <style>
+            .product_item {
+                background: #fff;
+                border-radius: 8px;
+                padding: 10px;
+                text-align: center;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            }
+
+            .product_item img {
+                width: 100%;
+                height: 150px;
+                object-fit: cover;
+            }
+
+            .pro_name {
+                font-size: 14px;
+                margin: 8px 0;
+            }
+
+            .pro_price del {
+                color: red;
+                font-size: 13px;
+            }
+
+            .pro_price span {
+                color: green;
+                font-weight: bold;
+            }
+
+            .sale-badge {
+                background: red;
+                color: #fff;
+                font-size: 12px;
+                padding: 2px 6px;
+                position: absolute;
+            }
+
+            .pro_btn a {
+                display: block;
+                background: green;
+                color: #fff;
+                padding: 6px;
+                margin-top: 10px;
+                border-radius: 4px;
+                text-decoration: none;
+            }
+
+            .section-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            /* Product Card */
+            .product_item {
+                background: #fff;
+                padding: 12px;
+                border-radius: 10px;
+                text-align: center;
+                transition: 0.3s;
+                position: relative;
+            }
+
+            .product_item:hover {
+                transform: translateY(-5px);
+            }
+
+            /* Image */
+            .pro_img img {
+                width: 100%;
+                height: 160px;
+                object-fit: cover;
+            }
+
+            /* Name */
+            .pro_name {
+                font-size: 14px;
+                margin: 10px 0;
+            }
+
+            /* Price */
+            .pro_price del {
+                color: red;
+                font-size: 12px;
+            }
+
+            .pro_price span {
+                color: green;
+                font-weight: bold;
+            }
+
+            /* Button */
+            .pro_btn a {
+                display: block;
+                background: #0a9e0a;
+                color: #fff;
+                padding: 6px;
+                border-radius: 5px;
+                text-decoration: none;
+            }
+
+            /* Discount */
+            .sale-badge {
+                position: absolute;
+                top: 5px;
+                left: 5px;
+                background: red;
+                color: #fff;
+                font-size: 12px;
+                padding: 3px 6px;
+                border-radius: 3px;
+            }
+
+            /* View More */
+            .view-btn {
+                background: #ff6600;
+                color: #fff;
+                padding: 8px 20px;
+                border-radius: 20px;
+                text-decoration: none;
+            }
+
+            /* Swiper fix */
+            .swiper {
+                padding-bottom: 30px;
+            }
+        </style>
+    @endpush
+
+
+    {{-- ================= TOP CATEGORY ================= --}}
+    {{-- @if ($categories->isNotEmpty())
+    <div class="container">
+        <div class="top-category-header">
+            <h2>Top Categories</h2>
+        </div>
+
+        <div class="swiper topcategory">
+            <div class="swiper-wrapper">
+                @foreach ($categories as $data)
+                <div class="swiper-slide">
+                    <div class="cat_item">
+                        <a href="{{ route('product.details', $data->id) }}">
+                            <img src="{{ asset($data->image) }}">
+                            <p>{{ $data->category }}</p>
+                        </a>
                     </div>
-                    {{-- Top Ctegory Start --}}
-                    <div class="swiper topcategory">
+                </div>
+                @endforeach
+            </div>
+
+            <div class="swiper-button-next top-next"></div>
+            <div class="swiper-button-prev top-prev"></div>
+        </div>
+    </div>
+    @endif --}}
+
+
+    {{-- ================= FEATURED PRODUCT ================= --}}
+    {{-- @if ($featured_product->isNotEmpty())
+    <div class="container mt-4">
+        <h2>Featured Product</h2>
+
+        <div class="swiper featuredSwiper">
+            <div class="swiper-wrapper">
+                @foreach ($featured_product as $data)
+                <div class="swiper-slide">
+                    @include('frontend.include.product-card', ['data' => $data])
+                </div>
+                @endforeach
+            </div>
+
+            <div class="swiper-button-next featured-next"></div>
+            <div class="swiper-button-prev featured-prev"></div>
+        </div>
+    </div>
+    @endif --}}
+
+
+    {{-- ================= GRID PRODUCTS (ALL SAME STRUCTURE) ================= --}}
+    {{-- @php
+        $sections = [
+            'Top Selling Product' => $top_selling_Product,
+            'New Launch Product' => $new_launch_product,
+            'Most Popular Product' => $most_popular_product,
+            'Regular Product' => $regular_product,
+        ];
+    @endphp --}}
+    {{-- 
+    @foreach ($sections as $title => $products)
+        @if ($products->isNotEmpty())
+        <div class="container mt-4">
+            <h2>{{ $title }}</h2>
+
+            <div class="row">
+                @foreach ($products as $data)
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    @include('frontend.include.product-card', ['data' => $data])
+                </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
+    @endforeach --}}
+
+
+    <section class="properties">
+
+        @php
+            $sections = [
+                [
+                    'title' => 'Featured Product',
+                    'products' => $featured_product,
+                    'route' => route('featured.product.view'),
+                ],
+                [
+                    'title' => 'Top Selling Product',
+                    'products' => $top_selling_Product,
+                    'route' => route('topSelling.product.view'),
+                ],
+                [
+                    'title' => 'New Launch Product',
+                    'products' => $new_launch_product,
+                    'route' => route('newLaunch.product.view'),
+                ],
+                [
+                    'title' => 'Most Popular Product',
+                    'products' => $most_popular_product,
+                    'route' => route('popular.product.view'),
+                ],
+                [
+                    'title' => 'Regular Product',
+                    'products' => $regular_product,
+                    'route' => route('regular.product.view'),
+                ],
+            ];
+        @endphp
+
+        @foreach ($sections as $sec)
+            @if ($sec['products']->isNotEmpty())
+                <div class="container mt-4">
+
+                    {{-- Header --}}
+                    <div class="section-header">
+                        <h2>{{ $sec['title'] }}</h2>
+                    </div>
+
+                    {{-- Slider --}}
+                    <div class="swiper productSwiper">
                         <div class="swiper-wrapper">
-                            @foreach ($categories as $data)
+
+                            @foreach ($sec['products'] as $data)
                                 <div class="swiper-slide">
-                                    <div class="cat_item">
-                                        <div class="cat_img">
+                                    <div class="product_item">
+
+                                        {{-- Discount --}}
+                                        @if ($data->discount_price_percentage)
+                                            <div class="sale-badge">
+                                                {{ $data->discount_price_percentage }}%
+                                            </div>
+                                        @endif
+
+                                        {{-- Image --}}
+                                        <div class="pro_img">
                                             <a href="{{ route('product.details', $data->id) }}">
-                                                <img src="{{ asset($data->image) }}" alt="{{ $data->category }}">
+                                                <img src="{{ asset($data->image) }}">
                                             </a>
                                         </div>
-                                        <div class="cat_name">
-                                            <a href="{route('product.details',$data->id)}}">{{ $data->category }}</a>
+
+                                        {{-- Name --}}
+                                        <div class="pro_name">
+                                            {{ $data->name }}
                                         </div>
+
+                                        {{-- Price --}}
+                                        <div class="pro_price">
+                                            @if ($data->discount_price && $data->discount_price < $data->price)
+                                                <del>৳ {{ $data->price }}</del>
+                                                <span>৳ {{ $data->discount_price }}</span>
+                                            @else
+                                                <span>৳ {{ $data->price }}</span>
+                                            @endif
+                                        </div>
+
+                                        {{-- Button --}}
+                                        <div class="pro_btn">
+                                            <a href="{{ route('order', $data->id) }}" data-id="{{ $data->id }}"
+                                                class="add-to-cart">
+                                                অর্ডার করুন
+                                            </a>
+                                        </div>
+
                                     </div>
                                 </div>
                             @endforeach
+
                         </div>
 
-                        <!-- Navigation -->
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
+                        {{-- Navigation --}}
+                        <div class="swiper-button-next custom-next"></div>
+                        <div class="swiper-button-prev custom-prev"></div>
                     </div>
-                </div>
-            </div>
-        @endif
-        {{-- featured_product --}}
-        @if ($featured_product->isNotEmpty())
-            <div class="col-md-12 col-lg-12 col-sm-6 col-xl-12">
-                <div class="row">
-                    <div class="top-category-header ">
-                        <h2>Featured Product</h2>
-                    </div>
-                    <div class="">
-                        <div class="swiper categorySwiper">
-                            <div class="swiper-wrapper ">
-                                @foreach ($featured_product as $data)
-                                    <div class="swiper-slide">
-                                        <div class="product_item wist_item">
-                                            <div class="product_item_inner">
-                                                <div class="sale-badge">
-                                                    <div class="sale-badge-inner">
-                                                        <div class="sale-badge-box">
-                                                            <span class="sale-badge-text">
-                                                                @if ($data->discount_price_percentage)
-                                                                    <p>{{ $data->discount_price_percentage }}%</p>
-                                                                    ছাড়
-                                                                @endif
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
 
-                                                <div class="pro_img">
-                                                    <a href="{{ route('product.details', $data->id) }}">
-                                                        <img src="{{ asset($data->image) }}" alt="Symphony A30">
-                                                    </a>
-                                                </div>
-
-                                                <div class="pro_des">
-                                                    <div class="pro_name">
-                                                        <a
-                                                            href="{{ route('product.details', $data->id) }}">{{ $data->name }}</a>
-                                                    </div>
-                                                    <div class="pro_price">
-                                                        <p>
-                                                            @if ($data->discount_price && $data->discount_price < $data->price)
-                                                                <del class="old-price">৳
-                                                                    {{ number_format($data->price, 2) }}</del>
-                                                                <span class="new-price">৳
-                                                                    {{ number_format($data->discount_price, 2) }}</span>
-                                                            @elseif($data->price)
-                                                                <span class="new-price">৳
-                                                                    {{ number_format($data->price, 2) }}</span>
-                                                            @else
-                                                                <del class="old-price">৳ 00</del>
-                                                            @endif
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <div class="pro_btn">
-                                                <div class="cart_btn order_button">
-                                                    <a href="{{ route('order', $data->id) }}"
-                                                        data-id="{{ $data->id }}"
-                                                        class="addcartbutton add-to-cart">অর্ডার
-                                                        করুন</a>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                            <div class="view-more">
-                                <a href="{{ route('featured.product.view') }}">View More</a>
-                            </div>
-                        </div>
-                        <!-- Navigation -->
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
-                    </div>
-                </div>
-            </div>
-        @endif
-        {{-- top Selling Product --}}
-        @if ($top_selling_Product->isNotEmpty())
-            <div class="col-md-12 col-lg-12 col-sm-6 col-xl-12">
-                <div class="row">
-                    <div class="top-category-header ">
-                        <h2>Top Selling Product</h2>
-                    </div>
-                    <div class="row product-grid">
-                        <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
-                            <div class="product_item">
-                                <div class="product_item wist_item">
-                                    @foreach ($top_selling_Product as $data)
-                                        <div class="product_item_inner">
-                                            <div class="sale-badge">
-                                                <div class="sale-badge-inner">
-                                                    <div class="sale-badge-box">
-                                                        <span class="sale-badge-text">
-                                                            @if ($data->discount_price_percentage)
-                                                                <p>{{ $data->discount_price_percentage }}%</p>
-                                                                ছাড়
-                                                            @endif
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="pro_img">
-                                                <a href="{{ route('product.details', $data->id) }}">
-                                                    <img src="{{ asset($data->image) }}" alt="Symphony A30">
-                                                </a>
-                                            </div>
-
-                                            <div class="pro_des">
-                                                <div class="pro_name">
-                                                    <a
-                                                        href="{{ route('product.details', $data->id) }}">{{ $data->name }}</a>
-                                                </div>
-                                                <div class="pro_price">
-                                                    <p>
-                                                        @if ($data->discount_price && $data->discount_price < $data->price)
-                                                            <del class="old-price">৳
-                                                                {{ number_format($data->price, 2) }}</del>
-                                                            <span class="new-price">৳
-                                                                {{ number_format($data->discount_price, 2) }}</span>
-                                                        @elseif($data->price)
-                                                            <span class="new-price">৳
-                                                                {{ number_format($data->price, 2) }}</span>
-                                                        @else
-                                                            <del class="old-price">৳ 00</del>
-                                                        @endif
-                                                    </p>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="pro_btn">
-                                            <div class="cart_btn order_button">
-                                                <a href="{{ route('order', $data->id) }}" data-id="{{ $data->id }}"
-                                                    class="addcartbutton add-to-cart">অর্ডার
-                                                    করুন</a>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {{-- View More --}}
                     <div class="text-center mt-3">
-                        <a href="{{route('topSelling.product.view')}}" class="view-more-btn">View More</a>
+                        <a href="{{ $sec['route'] }}" class="view-btn">View More</a>
                     </div>
+
                 </div>
-            </div>
-        @endif
-        {{-- new_launch_product --}}
-        @if ($new_launch_product->isNotEmpty())
-            <div class="col-md-12 col-lg-12 col-sm-6 col-xl-12">
-                <div class="row">
-                    <div class="top-category-header ">
-                        <h2>New Launch Product</h2>
-                    </div>
-                    <div class="row product-grid">
-                        <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
-                            <div class="product_item">
-                                <div class="product_item wist_item">
-                                    @foreach ($new_launch_product as $data)
-                                        <div class="product_item_inner">
-                                            <div class="sale-badge">
-                                                <div class="sale-badge-inner">
-                                                    <div class="sale-badge-box">
-                                                        <span class="sale-badge-text">
-                                                            @if ($data->discount_price_percentage)
-                                                                <p>{{ $data->discount_price_percentage }}%</p>
-                                                                ছাড়
-                                                            @endif
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
+            @endif
+        @endforeach
 
-                                            <div class="pro_img">
-                                                <a href="{{ route('product.details', $data->id) }}">
-                                                    <img src="{{ asset($data->image) }}" alt="Symphony A30">
-                                                </a>
-                                            </div>
-
-                                            <div class="pro_des">
-                                                <div class="pro_name">
-                                                    <a
-                                                        href="{{ route('product.details', $data->id) }}">{{ $data->name }}</a>
-                                                </div>
-                                                <div class="pro_price">
-                                                    <p>
-                                                        @if ($data->discount_price && $data->discount_price < $data->price)
-                                                            <del class="old-price">৳
-                                                                {{ number_format($data->price, 2) }}</del>
-                                                            <span class="new-price">৳
-                                                                {{ number_format($data->discount_price, 2) }}</span>
-                                                        @elseif($data->price)
-                                                            <span class="new-price">৳
-                                                                {{ number_format($data->price, 2) }}</span>
-                                                        @else
-                                                            <del class="old-price">৳ 00</del>
-                                                        @endif
-                                                    </p>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="pro_btn">
-                                            <div class="cart_btn order_button">
-                                                <a href="{{ route('order', $data->id) }}" data-id="{{ $data->id }}"
-                                                    class="addcartbutton add-to-cart">অর্ডার
-                                                    করুন</a>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-center mt-3">
-                        <a href="{{route('newLaunch.product.view')}}" class="view-more-btn">View More</a>
-                    </div>
-                </div>
-            </div>
-        @endif
-        {{-- most_popular_product --}}
-        @if ($most_popular_product->isNotEmpty())
-            <div class="col-md-12 col-lg-12 col-sm-6 col-xl-12">
-                <div class="row">
-                    <div class="top-category-header">
-                        <h2>Most Popular Product</h2>
-                    </div>
-                    <div class="row product-grid">
-                        <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
-                            <div class="product_item">
-                                <div class="product_item">
-                                    <div class="product_item wist_item">
-                                        @foreach ($most_popular_product as $data)
-                                            <div class="product_item_inner">
-                                                <div class="sale-badge">
-                                                    <div class="sale-badge-inner">
-                                                        <div class="sale-badge-box">
-                                                            <span class="sale-badge-text">
-                                                                @if ($data->discount_price_percentage)
-                                                                    <p>{{ $data->discount_price_percentage }}%</p>
-                                                                    ছাড়
-                                                                @endif
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="pro_img">
-                                                    <a href="{{ route('product.details', $data->id) }}">
-                                                        <img src="{{ asset($data->image) }}" alt="Symphony A30">
-                                                    </a>
-                                                </div>
-
-                                                <div class="pro_des">
-                                                    <div class="pro_name">
-                                                        <a
-                                                            href="{{ route('product.details', $data->id) }}">{{ $data->name }}</a>
-                                                    </div>
-                                                    <div class="pro_price">
-                                                        <p>
-                                                            @if ($data->discount_price && $data->discount_price < $data->price)
-                                                                <del class="old-price">৳
-                                                                    {{ number_format($data->price, 2) }}</del>
-                                                                <span class="new-price">৳
-                                                                    {{ number_format($data->discount_price, 2) }}</span>
-                                                            @elseif($data->price)
-                                                                <span class="new-price">৳
-                                                                    {{ number_format($data->price, 2) }}</span>
-                                                            @else
-                                                                <del class="old-price">৳ 00</del>
-                                                            @endif
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <div class="pro_btn">
-                                                <div class="cart_btn order_button">
-                                                    <a href="{{ route('order', $data->id) }}"
-                                                        data-id="{{ $data->id }}"
-                                                        class="addcartbutton add-to-cart">অর্ডার
-                                                        করুন</a>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-center mt-3">
-                        <a href="{{route('popular.product.view')}}" class="view-more-btn">View More</a>
-                    </div>
-                </div>
-            </div>
-        @endif
-        {{-- Regular Product --}}
-        @if ($regular_product->isNotEmpty())
-            <div class="col-md-12 col-lg-12 col-sm-6 col-xl-12">
-                <div class="row">
-                    <div class="top-category-header ">
-                        <h2>Regular Product</h2>
-                    </div>
-
-                    <div class="row product-grid">
-                        <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
-                            <div class="product_item">
-                                <div class="product_item">
-                                    <div class="product_item wist_item">
-
-                                        @foreach ($regular_product as $data)
-                                            <div class="product_item_inner">
-                                                <div class="sale-badge">
-                                                    <div class="sale-badge-inner">
-                                                        <div class="sale-badge-box">
-                                                            <span class="sale-badge-text">
-                                                                @if (!empty($data->discount_price_percentage))
-                                                                    <p>{{ $data->discount_price_percentage }}%</p>
-                                                                    ছাড়
-                                                                @endif
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="pro_img">
-                                                    <a href="{{ route('product.details', $data->id) }}">
-                                                        <img src="{{ asset($data->image) }}" alt="Symphony A30">
-                                                    </a>
-                                                </div>
-
-                                                <div class="pro_des">
-                                                    <div class="pro_name">
-                                                        <a
-                                                            href="{{ route('product.details', $data->id) }}">{{ $data->name }}</a>
-                                                    </div>
-                                                    <div class="pro_price">
-                                                        <p>
-                                                            @if ($data->discount_price && $data->discount_price < $data->price)
-                                                                <del class="old-price">৳
-                                                                    {{ number_format($data->price, 2) }}</del>
-                                                                <span class="new-price">৳
-                                                                    {{ number_format($data->discount_price, 2) }}</span>
-                                                            @elseif($data->price)
-                                                                <span class="new-price">৳
-                                                                    {{ number_format($data->price, 2) }}</span>
-                                                            @else
-                                                                <del class="old-price">৳ 00</del>
-                                                            @endif
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <div class="pro_btn">
-                                                <div class="cart_btn order_button">
-                                                    <a href="{{ route('order', $data->id) }}"
-                                                        data-id="{{ $data->id }}"
-                                                        class="addcartbutton add-to-cart">অর্ডার
-                                                        করুন</a>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-center mt-3">
-                        <a href="{{route('regular.product.view')}}" class="view-more-btn">View More</a>
-                    </div>
-                </div>
-            </div>
-        @endif
-        </div>
-        </div>
     </section>
 @endsection
 @push('js')
     <script>
+        /* Add to Cart */
         document.querySelectorAll('.add-to-cart').forEach(btn => {
-            btn.addEventListener('click', function() {
-                let productId = btn.getAttribute('data-id');
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
 
-                fetch(`/cart/add/${productId}`)
+                let id = this.getAttribute('data-id');
+
+                fetch(`/cart/add/${id}`)
                     .then(res => res.json())
                     .then(data => {
-                        document.getElementById('cartCount').textContent = data.cartCount;
-
+                        document.getElementById('cartCount').innerText = data.cartCount;
                     });
             });
         });
+    </script>
 
-        function addToCart(productId) {
-            fetch(`/cart/add/${productId}`)
-                .then(res => res.json())
-                .then(data => {
-                    document.getElementById('cartCount').textContent = data.cartCount;
+    <script>
+        /* Product Slider */
+        document.querySelectorAll('.productSwiper').forEach((el) => {
+            new Swiper(el, {
+                slidesPerView: 5,
+                spaceBetween: 20,
+                loop: true,
 
-                });
-        }
+                autoplay: {
+                    delay: 2500,
+                    disableOnInteraction: false,
+                },
+
+                navigation: {
+                    nextEl: el.querySelector('.custom-next'),
+                    prevEl: el.querySelector('.custom-prev'),
+                },
+
+                breakpoints: {
+                    320: {
+                        slidesPerView: 2
+                    },
+                    576: {
+                        slidesPerView: 3
+                    },
+                    768: {
+                        slidesPerView: 4
+                    },
+                    992: {
+                        slidesPerView: 5
+                    }
+                }
+            });
+        });
     </script>
     <script>
-        var swiper = new Swiper(".topcategory", {
+        /* Add to cart */
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                let id = this.getAttribute('data-id');
+
+                fetch(`/cart/add/${id}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        document.getElementById('cartCount').innerText = data.cartCount;
+                    });
+            });
+        });
+    </script>
+
+    <script>
+        /* Top Category */
+        new Swiper(".topcategory", {
             slidesPerView: 4,
             spaceBetween: 20,
             loop: true,
             navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
+                nextEl: ".top-next",
+                prevEl: ".top-prev",
             },
             breakpoints: {
                 320: {
@@ -466,6 +412,17 @@
                     slidesPerView: 5
                 }
             }
+        });
+
+        /* Featured */
+        new Swiper(".featuredSwiper", {
+            slidesPerView: 4,
+            spaceBetween: 20,
+            loop: true,
+            navigation: {
+                nextEl: ".featured-next",
+                prevEl: ".featured-prev",
+            },
         });
     </script>
 @endpush

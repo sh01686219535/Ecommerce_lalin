@@ -41,9 +41,9 @@
                         <!-- small box -->
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h3>{{$property ?? 0}}<sup style="font-size: 20px"></sup></h3>
+                                <h3>{{$product ?? 0}}<sup style="font-size: 20px"></sup></h3>
 
-                                <p>Property</p>
+                                <p>Product</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-stats-bars"></i>

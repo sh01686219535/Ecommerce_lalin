@@ -54,7 +54,7 @@
             <div class="row">
 
                 <div class="col-sm-3 filter_sidebar">
-                    
+
                     <form action="" class="attribute-submit">
                         <div class="sidebar_item wraper__item">
                             <div class="accordion" id="category_sidebar">
@@ -111,21 +111,24 @@
                                                     <div class="filter-body">
                                                         <div class="slider-box">
                                                             <div class="filter-price-inputs">
-                                                                <p class="min-price">৳<input type="text" name="min_price"
-                                                                        id="min_price" readonly="">
+                                                                <p class="min-price">৳
+                                                                    <input type="text" id="min_price" readonly
+                                                                        value="500">
                                                                 </p>
-                                                                <p class="max-price">৳<input type="text" name="max_price"
-                                                                        id="max_price" readonly="">
+                                                                <p class="max-price">৳
+                                                                    <input type="text" id="max_price" readonly
+                                                                        value="100000">
                                                                 </p>
                                                             </div>
-                                                            <div id="price-range"
-                                                                class="slider form-attribute ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
-                                                                <div class="ui-slider-range ui-widget-header ui-corner-all"
-                                                                    style="left: 0%; width: 100%;"></div><span
-                                                                    class="ui-slider-handle ui-state-default ui-corner-all"
-                                                                    tabindex="0" style="left: 0%;"></span><span
-                                                                    class="ui-slider-handle ui-state-default ui-corner-all"
-                                                                    tabindex="0" style="left: 100%;"></span>
+
+                                                            <div class="price-slider">
+                                                                <div class="track"></div>
+                                                                <div class="range" id="rangeFill"></div>
+
+                                                                <input type="range" id="minRange" min="0"
+                                                                    max="10000" value="500">
+                                                                <input type="range" id="maxRange" min="0"
+                                                                    max="10000" value="8000">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -136,6 +139,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <!--sidebar item end-->
                         <div class="sidebar_item wraper__item">
                             <div class="accordion" id="filter_sidebar">
@@ -206,52 +210,57 @@
                 </div>
                 <div class="col-sm-9">
                     <div class="category-product main_product_inner">
-                        <div class="product_item wist_item  wow fadeInDown" data-wow-duration="1.5s"
-                            data-wow-delay="0.0s"
-                            style="visibility: visible; animation-duration: 1.5s; animation-delay: 0s; animation-name: fadeInDown;">
-                            <div class="product_item_inner">
-                                <div class="sale-badge-view">
-                                    <div class="sale-badge-inner-view">
-                                        <div class="sale-badge-box-view">
-                                            <span class="sale-badge-text-view">
-                                                <p> 28%</p>
-                                                ছাড়
-                                            </span>
+                        @foreach ($topSellingProductView as $data)
+                            <div class="product_item wist_item  wow fadeInDown" data-wow-duration="1.5s"
+                                data-wow-delay="0.0s"
+                                style="visibility: visible; animation-duration: 1.5s; animation-delay: 0s; animation-name: fadeInDown;">
+                                <div class="product_item_inner">
+                                    <div class="sale-badge-view">
+                                        <div class="sale-badge-inner-view">
+                                            <div class="sale-badge-box-view">
+                                                <span class="sale-badge-text-view">
+                                                    @if (!empty($data->discount_price_percentage))
+                                                        <p>{{ $data->discount_price_percentage }}%</p>
+                                                        ছাড়
+                                                    @endif
+
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="pro_img">
+                                        <a href="{{ route('product.details', $data->id) }}">
+                                            <img src="{{ asset($data->image) }}" alt="WUF-W15 Portable Wireless Speaker">
+                                        </a>
+                                    </div>
+                                    <div class="pro_des">
+                                        <div class="pro_name">
+                                            <a href="{{ route('product.details', $data->id) }}">{{ $data->name }}</a>
+                                        </div>
+                                        <div class="pro_price">
+                                            <p>
+                                                @if ($data->discount_price && $data->discount_price < $data->price)
+                                                    <del class="old-price">৳
+                                                        {{ number_format($data->price, 2) }}</del>
+                                                    <span class="new-price">৳
+                                                        {{ number_format($data->discount_price, 2) }}</span>
+                                                @elseif($data->price)
+                                                    <span class="new-price">৳
+                                                        {{ number_format($data->price, 2) }}</span>
+                                                @else
+                                                    <del class="old-price">৳ 00</del>
+                                                @endif
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="pro_img">
-                                    <a href="https://ghuribd.com/product/wuf-w15-portable-wireless-speaker-1">
-                                        <img src="https://ghuribd.com/public/uploads/product/1764324110-wuf-w15-portable-wireless-speaker.png"
-                                            alt="WUF-W15 Portable Wireless Speaker">
-                                    </a>
-
-                                </div>
-                                <div class="pro_des">
-                                    <div class="pro_name">
-                                        <a href="https://ghuribd.com/product/wuf-w15-portable-wireless-speaker-1">WUF-W15
-                                            Portable Wireless Speaker</a>
-                                    </div>
-                                    <div class="pro_price">
-                                        <p>
-                                            <del>৳ 750</del>
-                                            ৳ 540
-                                        </p>
+                                <div class="pro_btn">
+                                    <div class="cart_btn order_button">
+                                        <a href="{{ route('order', $data->id) }}" class="addcartbutton">অর্ডার</a>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="pro_btn">
-
-                                <div class="cart_btn order_button">
-                                    <a href="https://ghuribd.com/product/wuf-w15-portable-wireless-speaker-1"
-                                        class="addcartbutton">অর্ডার</a>
-                                </div>
-
-                            </div>
-
-                        </div>
-                        
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -287,4 +296,54 @@
     </section>
 @endsection
 @push('js')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            const minRange = document.getElementById("minRange");
+            const maxRange = document.getElementById("maxRange");
+
+            const minInput = document.getElementById("min_price");
+            const maxInput = document.getElementById("max_price");
+
+            const rangeFill = document.getElementById("rangeFill");
+
+            const minGap = 100;
+
+            function updatePriceSlider(e) {
+                let minVal = parseInt(minRange.value);
+                let maxVal = parseInt(maxRange.value);
+
+                // prevent overlap
+                if (maxVal - minVal < minGap) {
+                    if (e && e.target.id === "minRange") {
+                        minRange.value = maxVal - minGap;
+                    } else {
+                        maxRange.value = minVal + minGap;
+                    }
+                }
+
+                // update values again
+                minVal = parseInt(minRange.value);
+                maxVal = parseInt(maxRange.value);
+
+                // ✅ THIS LINE FIXES YOUR PROBLEM
+                minInput.value = minVal;
+                maxInput.value = maxVal;
+
+                // update green bar
+                let percentMin = (minVal / minRange.max) * 100;
+                let percentMax = (maxVal / maxRange.max) * 100;
+
+                rangeFill.style.left = percentMin + "%";
+                rangeFill.style.width = (percentMax - percentMin) + "%";
+            }
+
+            // events
+            minRange.addEventListener("input", updatePriceSlider);
+            maxRange.addEventListener("input", updatePriceSlider);
+
+            // init
+            updatePriceSlider();
+        });
+    </script>
 @endpush

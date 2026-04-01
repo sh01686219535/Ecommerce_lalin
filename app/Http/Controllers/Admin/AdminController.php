@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Admin\Contact;
 use App\Models\Admin\Order;
-use App\Models\Admin\Property;
+use App\Models\Admin\Product;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,9 +17,9 @@ class AdminController extends Controller
     //dashboard 
     public function dashboard(){
         $order = Order::count();
-        $property = Property::count();
+        $product = Product::count();
         $contact = Contact::count();
-        return view('admin.home.home',compact('order','property','contact'));
+        return view('admin.home.home',compact('order','product','contact'));
     } 
     //login
     public function login(){

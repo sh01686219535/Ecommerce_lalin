@@ -94,38 +94,7 @@
         });
     </script>
     {{-- //toaster --}}
-    {{-- <script>
-        toastr.options = {
-            closeButton: true,
-            progressBar: true,
-            positionClass: "toast-top-right",
-            showDuration: 300,
-            hideDuration: 1000,
-            timeOut: 5000,
-            extendedTimeOut: 1000,
-            newestOnTop: true,
-            preventDuplicates: true
-        };
-
-        @if (session()->has('message'))
-            const type = "{{ session('alert-type', 'info') }}";
-            const message = @json(session('message'));
-
-            switch (type) {
-                case 'success':
-                    toastr.success(message);
-                    break;
-                case 'error':
-                    toastr.error(message);
-                    break;
-                case 'warning':
-                    toastr.warning(message);
-                    break;
-                default:
-                    toastr.info(message);
-            }
-        @endif
-    </script> --}}
+    
     <!-- Include at the end of body -->
     
 <script>
