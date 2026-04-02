@@ -20,7 +20,9 @@ Route::post('/frontend-order/{id}', [OrderController::class, 'order'])->name('fr
 //========Contact=======================//
 Route::post('/contact-store', [ContactController::class, 'contactStore'])->name('contact.store');
 //property details
+Route::get('/product/group/details/{id}',[ProductController::class,'productGroupDetails'])->name('product.group.details');
 Route::get('/product/details/{id}',[ProductController::class,'productDetails'])->name('product.details');
+Route::get('/product/slider/details/{id}',[ProductController::class,'productSliderDetails'])->name('product.slider.details');
 //================Order=================//
 Route::get('/order/{id}',[OrderController::class,'order'])->name('order');
 Route::post('/user/order/{id}',[OrderController::class,'userOrder'])->name('user.order');
@@ -43,6 +45,8 @@ Route::get('/cart-count', function() {
 });
 //================User Login=================//
 Route::get('/user-view',[FrontendController::class,'userView'])->name('user.view');
+//======== Frontend route Live Search=============//
+// Route::get('/product-search', [FrontendController::class, 'productSearch'])->name('product.search');
 //======== Frontend route end=============//
 //===========AJAX==============//
 Route::get('/get-subcategories/{category_id}',  [SubCategoryController::class, 'getSubCategory'])->name('get.subcategories');

@@ -258,18 +258,40 @@ class ProductController extends Controller
         $childcategories = ChildCategory::where('subcategory_id', $subcategory_id)->get();
         return response()->json($childcategories);
     }
+    //productGroupDetails
+public function productGroupDetails($id)
+{
+    // Category wise all products
+    $products = Product::with('category', 'subCategory', 'childCategory', 'brand')
+        ->where('category_id', $id)
+        ->latest()
+        ->get();
+
+    return view('frontend.product.product_group_details', compact('products'));
+}
     //productDetails
-    public function productDetails($id)
-    {
-        $productDeatils = Product::with('category', 'subCategory', 'childCategory', 'brand')->findOrFail($id);
-        $productRelated = Product::with('category', 'subCategory', 'childCategory', 'brand')
-            ->where('category_id', $productDeatils->category_id)
-            //  ->where('id', '!=', $id) 
-            ->latest()
-            ->take(8) // limit related product
-            ->get();
-        return view('frontend.product.product_details', compact('productDeatils', 'productRelated'));
-    }
+public function productDetails($id)
+{
+    // Category wise all products
+    $productDeatils = Product::with('category', 'subCategory', 'childCategory', 'brand')
+        ->findOrfail($id);
+    $productRelated = Product::with('category', 'subCategory', 'childCategory', 'brand')
+        ->where('category_id', $productDeatils->category_id)
+        ->latest()
+        ->get();
+    return view('frontend.product.product_details', compact('productDeatils','productRelated'));
+}
+//productSliderDetails
+public function productSliderDetails($id)
+{
+    // Category wise all products
+    $products = Product::with('category', 'subCategory', 'childCategory', 'brand')
+        ->where('id', $id)
+        ->latest()
+        ->get();
+
+    return view('frontend.product.product_slider_details', compact('products'));
+}
     //================All Product View Start=================//
     //featuredProductView
     public function featuredProductView()

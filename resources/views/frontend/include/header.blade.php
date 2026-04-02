@@ -83,10 +83,19 @@
         </div>
 
         <!-- Search Box -->
-        <div class="search-box">
+        {{-- <div class="search-box">
             <input type="text" placeholder="Search Product...">
             <button><i class="fas fa-search"></i></button>
+        </div> --}}
+        <div class="main-search-box">
+            <form action="{{ route('home') }}" method="GET" class="search-box">
+                <input type="text" name="search" placeholder="Search Product..." value="{{ request('search') }}">
+                <button type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
         </div>
+
 
         <!-- Right Menu -->
         <div class="menu">

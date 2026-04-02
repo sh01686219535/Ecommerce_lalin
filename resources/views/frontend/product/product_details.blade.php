@@ -74,7 +74,7 @@
                             <div class="buttons">
                                 {{-- <button class="add-to-cart">কার্টে যোগ করুন</button> --}}
                                 <a class="add-to-cart" href="">কার্টে যোগ করুন</a>
-                                <a class="order-now" href="{{route('order',$productDeatils->id)}}">অর্ডার করুন</a>
+                                <a class="order-now" href="{{ route('order', $productDeatils->id) }}">অর্ডার করুন</a>
                                 {{-- <button class="order-now">অর্ডার করুন</button> --}}
                             </div>
 
@@ -165,83 +165,63 @@
     @if ($productRelated->isNotEmpty())
         <section class="related-product-section">
             <div class="container">
-                <div class="row">
-                    <div class="col-12 col-md-12 col-xl-12 col-sm-12">
-                        <div class="related-title mb-3">
-                            <h5>Related Product</h5>
-                        </div>
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <h5>Related Products</h5>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-12 col-md-12 col-xl-12 col-sm-12">
-                        <div class="col-md-3">
-                            <div class="product-inner owl-carousel related_slider">
-                                @foreach ($productRelated as $product)
-                                    <div class="product_item wist_item wow fadeInDown">
-                                        <div class="product_item_inner">
+                    <div class="col-12">
+                        <div class="owl-carousel related_slider">
+                            @foreach ($productRelated as $product)
+                                <div class="product_item wist_item">
+                                    <div class="product_item_inner">
 
-                                            {{-- Sale Badge --}}
-                                            @if ($product->discount_price)
-                                                <div class="sale-badge">
-                                                    <div class="sale-badge-inner">
-                                                        <div class="sale-badge-box">
-                                                            <span class="sale-badge-text">
-                                                                <p>
-                                                                    {{ round((($product->price - $product->discount_price) / $product->price) * 100) }}%
-                                                                </p>
-                                                                ছাড়
-                                                            </span>
-                                                        </div>
+                                        @if ($product->discount_price)
+                                            <div class="sale-badge">
+                                                <div class="sale-badge-inner">
+                                                    <div class="sale-badge-box">
+                                                        <span class="sale-badge-text">
+                                                            {{ round((($product->price - $product->discount_price) / $product->price) * 100) }}%
+                                                            ছাড়
+                                                        </span>
                                                     </div>
                                                 </div>
-                                            @endif
-
-                                            {{-- Product Image --}}
-                                            <div class="pro_img">
-                                                <a href="{{ route('product.details', $product->id) }}">
-                                                    <img src="{{ asset($product->image) }}" alt="{{ $product->name }}">
-                                                </a>
                                             </div>
+                                        @endif
 
-                                            {{-- Product Name --}}
-                                            <div class="pro_des">
-                                                <div class="pro_name">
-                                                    <a href="{{ route('product.details', $product->id) }}">
-                                                        {{ $product->name }}
-                                                    </a>
-                                                </div>
-
-                                                {{-- Price --}}
-                                                <div class="pro_price">
-                                                    <p>
-                                                        @if ($product->discount_price)
-                                                            <del>৳ {{ $product->price }}</del>
-                                                            ৳ {{ $product->discount_price }}
-                                                        @else
-                                                            ৳ {{ $product->price }}
-                                                        @endif
-                                                    </p>
-                                                </div>
-                                            </div>
-
+                                        <div class="pro_img">
+                                            <a href="{{ route('product.details', $product->id) }}">
+                                                <img src="{{ asset($product->image) }}" alt="{{ $product->name }}">
+                                            </a>
                                         </div>
 
-                                        {{-- Order Button --}}
-                                        <div class="pro_btn">
-                                            <div class="cart_btn order_button">
-                                                <a href="{{ route('product.details', $product->id) }}"
-                                                    class="addcartbutton">
-                                                    অর্ডার
+                                        <div class="pro_des">
+                                            <div class="pro_name">
+                                                <a href="{{ route('product.details', $product->id) }}">
+                                                    {{ $product->name }}
                                                 </a>
+                                            </div>
+                                            <div class="pro_price">
+                                                <p>
+                                                    @if ($product->discount_price)
+                                                        <del>৳ {{ $product->price }}</del> ৳
+                                                        {{ $product->discount_price }}
+                                                    @else
+                                                        ৳ {{ $product->price }}
+                                                    @endif
+                                                </p>
                                             </div>
                                         </div>
 
                                     </div>
-                                @endforeach
-                            </div>
+                                    <div class="pro_btn">
+                                        <a href="{{ route('order', $product->id) }}" class="addcartbutton">অর্ডার</a>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -252,6 +232,11 @@
 
 
 @push('js')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script>
         function changeMainImage(src, element) {
             const mainImg = document.getElementById('mainImage');
@@ -279,7 +264,11 @@
             margin: 15,
             nav: true,
             dots: false,
-            autoplay: true,
+             autoplay: {
+                    delay: 2500,
+                    disableOnInteraction: false,
+                     pauseOnMouseEnter: true,
+                },
             autoplayTimeout: 3000,
             responsive: {
                 0: {

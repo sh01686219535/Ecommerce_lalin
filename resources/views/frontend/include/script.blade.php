@@ -3,9 +3,11 @@
 
     <!-- Toastr JS -->
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> --}}
+    {{-- ajax --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {{-- slider --}}
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script>
+    {{-- <script>
         var swiper = new Swiper(".categorySwiper", {
             slidesPerView: 4,
             spaceBetween: 20,
@@ -34,8 +36,48 @@
                 }
             }
         });
-    </script>
+    </script> --}}
+    <script>
+        let track = document.querySelector('.main-slider-track');
+        let slides = document.querySelectorAll('.main-slide');
+        let dots = document.querySelectorAll('.dot');
 
+        let index = 0;
+
+        function updateSlider() {
+            track.style.transform = `translateX(-${index * 100}%)`;
+
+            dots.forEach(dot => dot.classList.remove('active'));
+            if (dots[index]) dots[index].classList.add('active');
+        }
+
+        // Auto slide
+        setInterval(() => {
+            index = (index + 1) % slides.length;
+            updateSlider();
+        }, 3000);
+
+        // Dots click
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                index = i;
+                updateSlider();
+            });
+        });
+
+        // Arrow
+        document.querySelector('.next').onclick = () => {
+            index = (index + 1) % slides.length;
+            updateSlider();
+        };
+
+        document.querySelector('.prev').onclick = () => {
+            index = (index - 1 + slides.length) % slides.length;
+            updateSlider();
+        };
+
+        updateSlider();
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
     {!! ToastMagic::scripts() !!}
     <script>
@@ -94,69 +136,72 @@
         });
     </script>
     {{-- //toaster --}}
-    
+
     <!-- Include at the end of body -->
-    
-<script>
-function refreshCartCount() {
-    fetch('/cart-count')
-        .then(res => res.json())
-        .then(data => {
-            document.querySelectorAll('#cartCount').forEach(el => {
-                el.textContent = data.cartCount;
-            });
-        });
-}
 
-// Run on page load and on pageshow (back button)
-window.addEventListener('DOMContentLoaded', refreshCartCount);
-window.addEventListener('pageshow', refreshCartCount);
-
-function cartUpdate(action, productId, inputEl = null) {
-    let url = '';
-    let data = {};
-
-    if (action === 'increment' || action === 'decrement') {
-        const qty = action === 'increment'
-            ? parseInt(inputEl.value) + 1
-            : Math.max(1, parseInt(inputEl.value) - 1);
-
-        url = `/cart/update/${productId}`;
-        data = { qty };
-    } else if (action === 'remove') {
-        url = `/cart/remove/${productId}`;
-    }
-
-    fetch(url, {
-        method: action === 'remove' ? 'GET' : 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        },
-        body: action === 'remove' ? null : JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(res => {
-        // Update order page table
-        if (action === 'remove') {
-            document.getElementById(`cartRow-${productId}`).remove();
-        } else {
-            inputEl.value = res.qty;
-            document.getElementById(`total-${productId}`).textContent = res.total_price;
+    <script>
+        function refreshCartCount() {
+            fetch('/cart-count')
+                .then(res => res.json())
+                .then(data => {
+                    document.querySelectorAll('#cartCount').forEach(el => {
+                        el.textContent = data.cartCount;
+                    });
+                });
         }
 
-        // Update cart count on all pages dynamically
-        document.querySelectorAll('#cartCount').forEach(el => {
-            el.textContent = res.cartCount;
-        });
+        // Run on page load and on pageshow (back button)
+        window.addEventListener('DOMContentLoaded', refreshCartCount);
+        window.addEventListener('pageshow', refreshCartCount);
 
-        // Optional: alert if cart empty
-        if(res.cartCount === 0){
-            // Do something, like hide order button
+        function cartUpdate(action, productId, inputEl = null) {
+            let url = '';
+            let data = {};
+
+            if (action === 'increment' || action === 'decrement') {
+                const qty = action === 'increment' ?
+                    parseInt(inputEl.value) + 1 :
+                    Math.max(1, parseInt(inputEl.value) - 1);
+
+                url = `/cart/update/${productId}`;
+                data = {
+                    qty
+                };
+            } else if (action === 'remove') {
+                url = `/cart/remove/${productId}`;
+            }
+
+            fetch(url, {
+                    method: action === 'remove' ? 'GET' : 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: action === 'remove' ? null : JSON.stringify(data)
+                })
+                .then(res => res.json())
+                .then(res => {
+                    // Update order page table
+                    if (action === 'remove') {
+                        document.getElementById(`cartRow-${productId}`).remove();
+                    } else {
+                        inputEl.value = res.qty;
+                        document.getElementById(`total-${productId}`).textContent = res.total_price;
+                    }
+
+                    // Update cart count on all pages dynamically
+                    document.querySelectorAll('#cartCount').forEach(el => {
+                        el.textContent = res.cartCount;
+                    });
+
+                    // Optional: alert if cart empty
+                    if (res.cartCount === 0) {
+                        // Do something, like hide order button
+                    }
+                });
         }
-    });
-}
-</script>
+    </script>
+    {{-- laravel live search --}}
     @stack('js')
     </body>
 
