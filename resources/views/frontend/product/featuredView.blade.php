@@ -217,15 +217,16 @@
                                 <div class="product_item_inner">
                                     <div class="sale-badge-view">
                                         <div class="sale-badge-inner-view">
+                                             @if (!empty($data->discount_price_percentage))
                                             <div class="sale-badge-box-view">
                                                 <span class="sale-badge-text-view">
-                                                    @if (!empty($data->discount_price_percentage))
+                                                   
                                                         <p>{{ $data->discount_price_percentage }}%</p>
-                                                        ছাড়
-                                                    @endif
-
+                                                        ছাড় 
+                                                   
                                                 </span>
                                             </div>
+                                             @endif
                                         </div>
                                     </div>
                                     <div class="pro_img">

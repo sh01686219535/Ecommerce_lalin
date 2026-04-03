@@ -20,6 +20,7 @@ Route::post('/frontend-order/{id}', [OrderController::class, 'order'])->name('fr
 //========Contact=======================//
 Route::post('/contact-store', [ContactController::class, 'contactStore'])->name('contact.store');
 //property details
+Route::get('/product/category/{type}/{id}',[ProductController::class,'productCategory'])->name('product.category');
 Route::get('/product/group/details/{id}',[ProductController::class,'productGroupDetails'])->name('product.group.details');
 Route::get('/product/details/{id}',[ProductController::class,'productDetails'])->name('product.details');
 Route::get('/product/slider/details/{id}',[ProductController::class,'productSliderDetails'])->name('product.slider.details');
@@ -32,11 +33,13 @@ Route::get('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
 Route::post('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
 Route::get('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 //=============All Product View==============//
-Route::get('/featured/product/view',[ProductController::class,'featuredProductView'])->name('featured.product.view');
-Route::get('/topSelling/product/view',[ProductController::class,'topSellingProductView'])->name('topSelling.product.view');
-Route::get('/newLaunch/product/view',[ProductController::class,'newLaunchProductView'])->name('newLaunch.product.view');
-Route::get('/popular/product/view',[ProductController::class,'popularProductView'])->name('popular.product.view');
-Route::get('/regular/product/view',[ProductController::class,'regularProductView'])->name('regular.product.view');
+// Route::get('/featured/product/view',[ProductController::class,'featuredProductView'])->name('featured.product.view');
+// Route::get('/topSelling/product/view',[ProductController::class,'topSellingProductView'])->name('topSelling.product.view');
+// Route::get('/newLaunch/product/view',[ProductController::class,'newLaunchProductView'])->name('newLaunch.product.view');
+// Route::get('/popular/product/view',[ProductController::class,'popularProductView'])->name('popular.product.view');
+// Route::get('/regular/product/view',[ProductController::class,'regularProductView'])->name('regular.product.view');
+Route::get('/product/type/{type}', [ProductController::class, 'productType'])
+    ->name('product.type');
 Route::get('/cart-count', function() {
     $cart = session('cart', []);
     $cartCount = array_sum(array_column($cart, 'qty'));

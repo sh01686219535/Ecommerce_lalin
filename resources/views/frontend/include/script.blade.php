@@ -37,6 +37,7 @@
             }
         });
     </script> --}}
+    {{-- slider  --}}
     <script>
         let track = document.querySelector('.main-slider-track');
         let slides = document.querySelectorAll('.main-slide');

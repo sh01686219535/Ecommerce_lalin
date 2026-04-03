@@ -6,131 +6,139 @@
         </style>
     @endpush
 
-    <section class="product-section">
-        <div class="container">
-            <div class="sorting-section">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="category-breadcrumb d-flex align-items-center">
-                            <a href="https://ghuribd.com">Home</a>
-                            <span>/</span>
-                            <strong>Gadgets &amp; Electronics</strong>
+    <section class="product-details-section">
+        <div class="container-property">
+            <div class="row">
+                {{-- Left Section: Product Images --}}
+                <div class="col-md-6 zoom-left">
+                    @php
+                        $images = $product->multi_image ?? [];
+                    @endphp
+                    @if (count($images) > 0)
+                        <div class="text-center mb-3">
+                            <img id="mainImage" src="{{ asset($images[0]) }}" class="img-fluid">
                         </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="showing-data">
-                                    <span>Showing 1-24 of
-                                        35 Results</span>
-                                </div>
+                        <div class="d-flex justify-content-center flex-wrap gap-2">
+                            @foreach ($images as $index => $image)
+                                <img src="{{ asset($image) }}"
+                                    class="img-thumbnail thumb-img {{ $index == 0 ? 'active' : '' }}"
+                                    style="width:115px;height:100px;object-fit:cover;"
+                                    onclick="changeMainImage('{{ asset($image) }}', this)">
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+
+                {{-- Right Section: Product Details --}}
+                <div class="col-md-6">
+                    <div class="product-details">
+                        <div class="breadcrumb">
+                            <a href="{{ route('home') }}">Home</a>
+                            @if ($product->category)
+                                / <a href="#">
+                                    {{ $product->category->category }}
+                                </a>
+                            @endif
+                            @if ($product->subCategory)
+                                / <a href="#">
+                                    {{ $product->subCategory->sub_category }}
+                                </a>
+                            @endif
+                            @if ($product->childCategory)
+                                / <a href="#">
+                                    {{ $product->childCategory->child_category }}
+                                </a>
+                            @endif
+                        </div>
+                        <div class="product-card-details">
+                            <div class="product-title">{{ $product->name ?? 'Product Name' }}</div>
+                            <div class="price">
+                                @if ($product->discount_price)
+                                    <del>৳{{ $product->price }}</del> ৳{{ $product->discount_price }}
+                                @else
+                                    ৳{{ $product->price }}
+                                @endif
                             </div>
-                            <div class="col-sm-6">
-                                <div class="filter_sort">
-                                    <div class="filter_btn">
-                                        <i class="fa fa-list-ul"></i>
-                                    </div>
-                                    <div class="page-sort">
-                                        <form action="" class="sort-form">
-                                            <select name="sort" class="form-control form-select sort">
-                                                <option value="1">Product: Latest</option>
-                                                <option value="2">Product: Oldest</option>
-                                                <option value="3">Price: High To Low</option>
-                                                <option value="4">Price: Low To High</option>
-                                                <option value="5">Name: A-Z</option>
-                                                <option value="6" selected="">Name: Z-A</option>
-                                            </select>
-                                            <input type="hidden" name="min_price" value="">
-                                            <input type="hidden" name="max_price" value="">
-                                        </form>
-                                    </div>
-                                </div>
+                            <div class="rating">
+                                <span>☆ ☆ ☆ ☆ ☆ 0.00/5</span> <a href="#">See Reviews</a>
+                            </div>
+                            <div class="product-code">প্রোডাক্ট কোড : {{ $product->product_code ?? 'P0000' }}</div>
+                            <div class="brand">Brand : {{ $product->brand->name ?? 'Brand Name' }}</div>
+
+                            <div class="quantity">
+                                <button onclick="decreaseQty()">-</button>
+                                <input type="number" id="qty" value="1" min="1">
+                                <button onclick="increaseQty()">+</button>
+                            </div>
+
+                            <div class="buttons">
+                                {{-- <button class="add-to-cart">কার্টে যোগ করুন</button> --}}
+                                <a class="add-to-cart" href="">কার্টে যোগ করুন</a>
+                                <a class="order-now" href="{{ route('order', $product->id) }}">অর্ডার করুন</a>
+                                {{-- <button class="order-now">অর্ডার করুন</button> --}}
+                            </div>
+
+                            <div class="contact">
+                                <i class="fa fa-phone"></i> +880 1886-600639
+                            </div>
+
+                            <div class="shipping-info">
+                                <div>ঢাকায় ভাড়াঃ ৭০ টাকা</div>
+                                <div>ঢাকার বাইরেঃ ১৩৫ টাকা</div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
+            </div> {{-- row --}}
+        </div>
+    </section>
+    <section class="pro_details_area">
+        <div class="container">
             <div class="row">
-
-                <div class="col-sm-3 filter_sidebar">
-
-                    <form action="" class="attribute-submit">
-                        <div class="sidebar_item wraper__item">
-                            <div class="accordion" id="category_sidebar">
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#collapseCat" aria-expanded="true" aria-controls="collapseOne">
-                                            Gadgets &amp; Electronics
-                                        </button>
-                                    </h2>
-                                    <div id="collapseCat" class="accordion-collapse collapse show"
-                                        data-bs-parent="#category_sidebar">
-                                        <div class="accordion-body cust_according_body">
-                                            <ul>
-                                                <li>
-                                                    <a href="https://ghuribd.com/subcategory/audio-&amp;-music">Audio &amp;
-                                                        Music</a>
-                                                </li>
-                                                <li>
-                                                    <a href="https://ghuribd.com/subcategory/earbuds">Earbuds</a>
-                                                </li>
-                                                <li>
-                                                    <a href="https://ghuribd.com/subcategory/powerbank">PowerBank</a>
-                                                </li>
-                                                <li>
-                                                    <a href="https://ghuribd.com/subcategory/neckband">Neckband</a>
-                                                </li>
-                                                <li>
-                                                    <a href="https://ghuribd.com/subcategory/usb-multi-port">USB
-                                                        Multi-port</a>
-                                                </li>
-                                            </ul>
+                <div class="col-sm-8">
+                    <div class="description tab-content details-action-box" id="description">
+                        <h2>বিস্তারিত</h2>
+                        <p></p>
+                        {!! $product->description !!}
+                    </div>
+                    <div class="tab-content details-action-box" id="writeReview">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="section-head">
+                                        <div class="title">
+                                            <h2>Reviews (0)</h2>
+                                            <p>Get specific details about this product from customers who own it.</p>
+                                        </div>
+                                        <div class="action">
+                                            <div>
+                                                <button type="button" class="details-action-btn question-btn btn-overlay"
+                                                    data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                    Write a review
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--sidebar item end-->
-                        <div class="sidebar_item wraper__item">
-                            <div class="accordion" id="price_sidebar">
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#collapsePrice" aria-expanded="true"
-                                            aria-controls="collapseOne">
-                                            Price
-                                        </button>
-                                    </h2>
-                                    <div id="collapsePrice" class="accordion-collapse collapse show"
-                                        data-bs-parent="#price_sidebar">
-                                        <div class="accordion-body cust_according_body">
-                                            <div class="category-filter-box category__wraper" id="categoryFilterBox">
-                                                <div class="category-filter-item">
-                                                    <div class="filter-body">
-                                                        <div class="slider-box">
-                                                            <div class="filter-price-inputs">
-                                                                <p class="min-price">৳
-                                                                    <input type="text" id="min_price" readonly
-                                                                        value="500">
-                                                                </p>
-                                                                <p class="max-price">৳
-                                                                    <input type="text" id="max_price" readonly
-                                                                        value="100000">
-                                                                </p>
-                                                            </div>
-
-                                                            <div class="price-slider">
-                                                                <div class="track"></div>
-                                                                <div class="range" id="rangeFill"></div>
-
-                                                                <input type="range" id="minRange" min="0"
-                                                                    max="10000" value="500">
-                                                                <input type="range" id="maxRange" min="0"
-                                                                    max="10000" value="8000">
-                                                            </div>
-                                                        </div>
+                                    <div class="empty-content">
+                                        <i class="fa fa-clipboard-list"></i>
+                                        <p class="empty-text">This product has no reviews yet. Be the first one to write a
+                                            review.</p>
+                                    </div>
+                                    <div class="modal fade" id="exampleModal" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Your review</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="insert-review">
+                                                        <a class="customer-login-redirect"
+                                                            href="https://ghuribd.com/customer/login">Login
+                                                            to Post
+                                                            Your Review</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -139,211 +147,146 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!--sidebar item end-->
-                        <div class="sidebar_item wraper__item">
-                            <div class="accordion" id="filter_sidebar">
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#collapseFilter" aria-expanded="true"
-                                            aria-controls="collapseOne">
-                                            Filter
-                                        </button>
-                                    </h2>
-                                    <div id="collapseFilter" class="accordion-collapse collapse show"
-                                        data-bs-parent="#filter_sidebar">
-                                        <div class="accordion-body cust_according_body">
-                                            <div class="filter-body">
-                                                <ul class="space-y-3">
-                                                    <li class="subcategory-filter-list">
-                                                        <label for="audio-&amp;-music-2" class="subcategory-filter-label">
-                                                            <input class="form-checkbox form-attribute"
-                                                                id="audio-&amp;-music-2" name="subcategory[]"
-                                                                value="2" type="checkbox">
-                                                            <p class="subcategory-filter-name">
-                                                                Audio &amp; Music</p>
-                                                        </label>
-                                                    </li>
-                                                    <li class="subcategory-filter-list">
-                                                        <label for="earbuds-8" class="subcategory-filter-label">
-                                                            <input class="form-checkbox form-attribute" id="earbuds-8"
-                                                                name="subcategory[]" value="8" type="checkbox">
-                                                            <p class="subcategory-filter-name">
-                                                                Earbuds</p>
-                                                        </label>
-                                                    </li>
-                                                    <li class="subcategory-filter-list">
-                                                        <label for="powerbank-9" class="subcategory-filter-label">
-                                                            <input class="form-checkbox form-attribute" id="powerbank-9"
-                                                                name="subcategory[]" value="9" type="checkbox">
-                                                            <p class="subcategory-filter-name">
-                                                                PowerBank</p>
-                                                        </label>
-                                                    </li>
-                                                    <li class="subcategory-filter-list">
-                                                        <label for="neckband-10" class="subcategory-filter-label">
-                                                            <input class="form-checkbox form-attribute" id="neckband-10"
-                                                                name="subcategory[]" value="10" type="checkbox">
-                                                            <p class="subcategory-filter-name">
-                                                                Neckband</p>
-                                                        </label>
-                                                    </li>
-                                                    <li class="subcategory-filter-list">
-                                                        <label for="usb-multi-port-12" class="subcategory-filter-label">
-                                                            <input class="form-checkbox form-attribute"
-                                                                id="usb-multi-port-12" name="subcategory[]"
-                                                                value="12" type="checkbox">
-                                                            <p class="subcategory-filter-name">
-                                                                USB Multi-port</p>
-                                                        </label>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--sidebar item end-->
-                    </form>
-                </div>
-                <div class="col-sm-9">
-                    <div class="category-product main_product_inner">
-                        @foreach ($products as $data)
-                            <div class="product_item wist_item  wow fadeInDown" data-wow-duration="1.5s"
-                                data-wow-delay="0.0s"
-                                style="visibility: visible; animation-duration: 1.5s; animation-delay: 0s; animation-name: fadeInDown;">
-                                <div class="product_item_inner">
-                                    <div class="sale-badge-view">
-                                        <div class="sale-badge-inner-view">
-                                            <div class="sale-badge-box-view">
-                                                <span class="sale-badge-text-view">
-                                                    @if (!empty($data->discount_price_percentage))
-                                                        <p>{{ $data->discount_price_percentage }}%</p>
-                                                        ছাড়
-                                                    @endif
-
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="pro_img">
-                                        <a href="{{ route('product.details', $data->id) }}">
-                                            <img src="{{ asset($data->image) }}" alt="WUF-W15 Portable Wireless Speaker">
-                                        </a>
-                                    </div>
-                                    <div class="pro_des">
-                                        <div class="pro_name">
-                                            <a href="{{ route('product.details', $data->id) }}">{{ $data->name }}</a>
-                                        </div>
-                                        <div class="pro_price">
-                                            <p>
-                                                @if ($data->discount_price && $data->discount_price < $data->price)
-                                                    <del class="old-price">৳
-                                                        {{ number_format($data->price, 2) }}</del>
-                                                    <span class="new-price">৳
-                                                        {{ number_format($data->discount_price, 2) }}</span>
-                                                @elseif($data->price)
-                                                    <span class="new-price">৳
-                                                        {{ number_format($data->price, 2) }}</span>
-                                                @else
-                                                    <del class="old-price">৳ 00</del>
-                                                @endif
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="pro_btn">
-                                    <div class="cart_btn order_button">
-                                        <a href="{{ route('order', $data->id) }}" class="addcartbutton">অর্ডার</a>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="custom_paginate">
-                        <nav>
-                            <ul class="pagination">
-
-                                <li class="page-item disabled" aria-disabled="true" aria-label="« Previous">
-                                    <span class="page-link" aria-hidden="true">‹</span>
-                                </li>
-
-
-                                <li class="page-item active" aria-current="page"><span class="page-link">1</span></li>
-                                <li class="page-item"><a class="page-link"
-                                        href="https://ghuribd.com/category/gadgets-&amp;-electronics?page=2">2</a></li>
-
-
-                                <li class="page-item">
-                                    <a class="page-link"
-                                        href="https://ghuribd.com/category/gadgets-&amp;-electronics?page=2"
-                                        rel="next" aria-label="Next »">›</a>
-                                </li>
-                            </ul>
-                        </nav>
-
-
+                <div class="col-sm-4">
+                    <div class="pro_vide sticky-video">
+                        <h2>ভিডিও</h2>
+                        <iframe width="100%" height="315" src="{{ $product->video_url }}"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen>
+                        </iframe>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    @if ($products->isNotEmpty())
+        <section class="related-product-section">
+            <div class="container">
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <h5>Related Products</h5>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="owl-carousel related_slider">
+                            @foreach ($products as $product)
+                                <div class="product_item wist_item">
+                                    <div class="product_item_inner">
+
+                                        @if ($product->discount_price)
+                                            <div class="sale-badge">
+                                                <div class="sale-badge-inner">
+                                                    <div class="sale-badge-box">
+                                                        <span class="sale-badge-text">
+                                                            {{ round((($product->price - $product->discount_price) / $product->price) * 100) }}%
+                                                            ছাড়
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
+
+                                        <div class="pro_img">
+                                            <a href="{{ route('product.details', $product->id) }}">
+                                                <img src="{{ asset($product->image) }}" alt="{{ $product->name }}">
+                                            </a>
+                                        </div>
+
+                                        <div class="pro_des">
+                                            <div class="pro_name">
+                                                <a href="{{ route('product.details', $product->id) }}">
+                                                    {{ $product->name }}
+                                                </a>
+                                            </div>
+                                            <div class="pro_price">
+                                                <p>
+                                                    @if ($product->discount_price)
+                                                        <del>৳ {{ $product->price }}</del> ৳
+                                                        {{ $product->discount_price }}
+                                                    @else
+                                                        ৳ {{ $product->price }}
+                                                    @endif
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="pro_btn">
+                                        <a href="{{ route('order', $product->id) }}" class="addcartbutton">অর্ডার</a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    @endif
+
 @endsection
+
+
 @push('js')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        function changeMainImage(src, element) {
+            const mainImg = document.getElementById('mainImage');
+            mainImg.src = src;
+            document.querySelectorAll('.thumb-img').forEach(img => img.classList.remove('active'));
+            element.classList.add('active');
+        }
 
-            const minRange = document.getElementById("minRange");
-            const maxRange = document.getElementById("maxRange");
+        function increaseQty() {
+            let qty = document.getElementById('qty');
+            qty.value = parseInt(qty.value) + 1;
+        }
 
-            const minInput = document.getElementById("min_price");
-            const maxInput = document.getElementById("max_price");
-
-            const rangeFill = document.getElementById("rangeFill");
-
-            const minGap = 100;
-
-            function updatePriceSlider(e) {
-                let minVal = parseInt(minRange.value);
-                let maxVal = parseInt(maxRange.value);
-
-                // prevent overlap
-                if (maxVal - minVal < minGap) {
-                    if (e && e.target.id === "minRange") {
-                        minRange.value = maxVal - minGap;
-                    } else {
-                        maxRange.value = minVal + minGap;
-                    }
-                }
-
-                // update values again
-                minVal = parseInt(minRange.value);
-                maxVal = parseInt(maxRange.value);
-
-                // ✅ THIS LINE FIXES YOUR PROBLEM
-                minInput.value = minVal;
-                maxInput.value = maxVal;
-
-                // update green bar
-                let percentMin = (minVal / minRange.max) * 100;
-                let percentMax = (maxVal / maxRange.max) * 100;
-
-                rangeFill.style.left = percentMin + "%";
-                rangeFill.style.width = (percentMax - percentMin) + "%";
+        function decreaseQty() {
+            let qty = document.getElementById('qty');
+            if (parseInt(qty.value) > 1) {
+                qty.value = parseInt(qty.value) - 1;
             }
+        }
+    </script>
 
-            // events
-            minRange.addEventListener("input", updatePriceSlider);
-            maxRange.addEventListener("input", updatePriceSlider);
-
-            // init
-            updatePriceSlider();
+    <script>
+        $('.related_slider').owlCarousel({
+            loop: true,
+            margin: 15,
+            nav: true,
+            dots: false,
+             autoplay: {
+                    delay: 2500,
+                    disableOnInteraction: false,
+                     pauseOnMouseEnter: true,
+                },
+            autoplayTimeout: 3000,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                576: {
+                    items: 2
+                },
+                768: {
+                    items: 3
+                },
+                992: {
+                    items: 4
+                },
+                1200: {
+                    items: 5
+                }
+            }
         });
     </script>
 @endpush

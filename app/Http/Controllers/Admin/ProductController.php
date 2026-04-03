@@ -259,83 +259,125 @@ class ProductController extends Controller
         return response()->json($childcategories);
     }
     //productGroupDetails
-public function productGroupDetails($id)
-{
-    // Category wise all products
-    $products = Product::with('category', 'subCategory', 'childCategory', 'brand')
-        ->where('category_id', $id)
-        ->latest()
-        ->get();
+    public function productGroupDetails($id)
+    {
+        // Category wise all products
+        $products = Product::with('category', 'subCategory', 'childCategory', 'brand')
+            ->where('category_id', $id)
+            ->latest()
+            ->get();
 
-    return view('frontend.product.product_group_details', compact('products'));
-}
+        return view('frontend.product.product_group_details', compact('products'));
+    }
     //productDetails
-public function productDetails($id)
-{
-    // Category wise all products
-    $productDeatils = Product::with('category', 'subCategory', 'childCategory', 'brand')
-        ->findOrfail($id);
-    $productRelated = Product::with('category', 'subCategory', 'childCategory', 'brand')
-        ->where('category_id', $productDeatils->category_id)
-        ->latest()
-        ->get();
-    return view('frontend.product.product_details', compact('productDeatils','productRelated'));
-}
-//productSliderDetails
-public function productSliderDetails($id)
-{
-    // Category wise all products
-    $products = Product::with('category', 'subCategory', 'childCategory', 'brand')
-        ->where('id', $id)
-        ->latest()
-        ->get();
-
-    return view('frontend.product.product_slider_details', compact('products'));
-}
+    public function productDetails($id)
+    {
+        // Category wise all products
+        $productDeatils = Product::with('category', 'subCategory', 'childCategory', 'brand')
+            ->findOrfail($id);
+        $productRelated = Product::with('category', 'subCategory', 'childCategory', 'brand')
+            ->where('category_id', $productDeatils->category_id)
+            ->latest()
+            ->get();
+        return view('frontend.product.product_details', compact('productDeatils', 'productRelated'));
+    }
+    //productSliderDetails
+    public function productSliderDetails($id)
+    {
+        $product = Product::with('category', 'subCategory', 'childCategory', 'brand')
+            ->findOrFail($id);
+        $products = Product::where('category_id', $product->category_id)->get();
+        return view('frontend.product.product_slider_details', compact('product','products'));
+    }
     //================All Product View Start=================//
-    //featuredProductView
-    public function featuredProductView()
-    {
-        $featuredProductView = Product::where('status', 1)
-            ->where('is_featured', 'featured')
-            ->latest()
-            ->get();
-        return view('frontend.product.featuredView', compact('featuredProductView'));
+    // //featuredProductView
+    // public function featuredProductView()
+    // {
+    //     $featuredProductView = Product::where('status', 1)
+    //         ->where('is_featured', 'featured')
+    //         ->latest()
+    //         ->get();
+    //     return view('frontend.product.featuredView', compact('featuredProductView'));
+    // }
+    // //topSellingProductView
+    // public function topSellingProductView()
+    // {
+    //     $topSellingProductView = Product::where('status', 1)
+    //         ->where('is_featured', 'top_selling')
+    //         ->latest()
+    //         ->get();
+    //     return view('frontend.product.topSellingView', compact('topSellingProductView'));
+    // }
+    // //newLaunchProductView
+    // public function newLaunchProductView()
+    // {
+    //     $newLaunchProductView = Product::where('status', 1)
+    //         ->where('is_featured', 'new_launch')
+    //         ->latest()
+    //         ->get();
+    //     return view('frontend.product.newLaunchView', compact('newLaunchProductView'));
+    // }
+    // //popularProductView
+    // public function popularProductView()
+    // {
+    //     $popularProductView = Product::where('status', 1)
+    //         ->where('is_featured', 'most_popular')
+    //         ->latest()
+    //         ->get();
+    //     return view('frontend.product.popular', compact('popularProductView'));
+    // }
+    // //regularProductView
+    // public function regularProductView()
+    // {
+    //     $regularProductView = Product::where('status', 1)
+    //         ->latest()
+    //         ->get();
+    //     return view('frontend.product.regular', compact('regularProductView'));
+    // }
+    public function productType($type)
+{
+    $query = Product::with('category', 'subCategory', 'childCategory', 'brand')
+        ->where('status', 1);
+
+    // Dynamic filter
+    if ($type != 'regular') {
+        $query->where('is_featured', $type);
     }
-    //topSellingProductView
-    public function topSellingProductView()
-    {
-        $topSellingProductView = Product::where('status', 1)
-            ->where('is_featured', 'top_selling')
-            ->latest()
-            ->get();
-        return view('frontend.product.topSellingView', compact('topSellingProductView'));
+
+    // Title dynamic
+    $titles = [
+        'featured'     => 'Featured Product',
+        'top_selling'  => 'Top Selling Product',
+        'new_launch'   => 'New Launch Product',
+        'most_popular' => 'Most Popular Product',
+        'regular'      => 'Regular Product',
+    ];
+
+    if (!array_key_exists($type, $titles)) {
+        abort(404);
     }
-    //newLaunchProductView
-    public function newLaunchProductView()
-    {
-        $newLaunchProductView = Product::where('status', 1)
-            ->where('is_featured', 'new_launch')
-            ->latest()
-            ->get();
-        return view('frontend.product.newLaunchView', compact('newLaunchProductView'));
-    }
-    //popularProductView
-    public function popularProductView()
-    {
-        $popularProductView = Product::where('status', 1)
-            ->where('is_featured', 'most_popular')
-            ->latest()
-            ->get();
-        return view('frontend.product.popular', compact('popularProductView'));
-    }
-    //regularProductView
-    public function regularProductView()
-    {
-        $regularProductView = Product::where('status', 1)
-            ->latest()
-            ->get();
-        return view('frontend.product.regular', compact('regularProductView'));
-    }
+
+    $products = $query->latest()->get();
+    $title = $titles[$type];
+
+    return view('frontend.product.common_view', compact('products', 'title'));
+}
     //================All Product View End=================//
+    //================Category Product Start=================//
+    // productCategoryDetails
+    public function productCategory($type, $id)
+    {
+        $products = collect();
+
+        if ($type == 'category') {
+            $products = Product::where('category_id', $id)->get();
+        } elseif ($type == 'sub_category') {
+            $products = Product::where('sub_category_id', $id)->get();
+        } elseif ($type == 'child_category') {
+            $products = Product::where('child_category_id', $id)->get();
+        }
+
+        return view('frontend.product.product_group_details', compact('products'));
+    }
+    //================Category Product End=================//
 }
