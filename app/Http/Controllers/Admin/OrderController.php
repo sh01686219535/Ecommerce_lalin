@@ -5,14 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Category;
 use App\Models\Admin\Order;
-use App\Models\Admin\Property;
-use App\Models\Vendor;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\OrderApprovedMail;
-use App\Mail\OrderCancelledMail;
+use App\Models\Admin\Product;
 use Devrabiul\ToastMagic\Facades\ToastMagic;
+use PDF;
 
 class OrderController extends Controller
 {
@@ -41,15 +37,9 @@ class OrderController extends Controller
     // order index
     public function orderIndex()
     {
-        $authId = Auth::guard('admin')->user()->id;
-        $vendor = Vendor::where('authId', $authId)->first();
-        if (isset($vendor)) {
-            $order = Order::where('vendorId', $vendor->id)->orderBy('id', 'desc')->paginate(10);
-            return view('admin.order.index', compact('order'));
-        } else {
-            $order = Order::orderBy('id', 'desc')->paginate(10);
-            return view('admin.order.index', compact('order'));
-        }
+
+        $order = Order::orderBy('id', 'desc')->paginate(10);
+        return view('admin.order.index', compact('order'));
     }
     //orderDelete
     public function orderDelete($id)
@@ -60,52 +50,36 @@ class OrderController extends Controller
         return back();
     }
     //orderProperty
-    public function orderProperty($id)
+    public function orderProduct($id)
     {
         $order = Order::findOrFail($id);
-        $property = Property::where('id', $order->property_id)->first();
+        $product = Product::where('id', $order->product_id)->first();
         $categories = Category::all();
-        return view('admin.order.property_details', compact('property', 'categories'));
+        return view('admin.order.product_details', compact('product', 'categories'));
     }
+
 
     public function orderApprove($id)
     {
- 
-        $order = Order::findOrFail($id);
+        $order = Order::with('product')->findOrFail($id);
         $order->status = 'approved';
         $order->save();
-
-        $vendor = Vendor::find($order->vendor_id);
-
-        // Send mails
-        if ($order->email) {
-            Mail::to($order->email)->send(new OrderApprovedMail($order));
-        }
-
-        if ($vendor && $vendor->email) {
-            Mail::to($vendor->email)->send(new OrderApprovedMail($order));
-        }
-        ToastMagic::success('Order approved and emails sent successfully!');
-        return redirect()->back();
+        return back();
     }
 
+    // orderPdfdownload
+    public function orderPdfdownload($id)
+    {
+        $order = Order::with('product')->findOrFail($id);
+        $pdf = PDF::loadView('admin.order.invoice_pdf', compact('order'));
+        return $pdf->download('Invoice_' . $order->id . '.pdf');
+    }
     //  Cancel Order
     public function orderCancel($id)
     {
         $order = Order::findOrFail($id);
         $order->status = 'cancel';
         $order->save();
-
-        $vendor = Vendor::find($order->vendor_id);
-
-        // Send mails
-        if ($order->email) {
-            Mail::to($order->email)->send(new OrderCancelledMail($order));
-        }
-
-        if ($vendor && $vendor->email) {
-            Mail::to($vendor->email)->send(new OrderCancelledMail($order));
-        }
         ToastMagic::success('Order cancelled and emails sent.!');
         return redirect()->back();
     }
@@ -119,21 +93,22 @@ class OrderController extends Controller
     public function orderUpdate(Request $request, $id)
     {
         $order = Order::findOrFail($id);
+        if (!$order) {
+            return response('Order not found', 404);
+        }
         $order->name = $request->name;
-        // $order->property_id = $property->id;
-        // $order->vendor_id = $property->vendor_id;
         $order->phone = $request->phone;
-        $order->email = $request->email;
+        $order->address = $request->address;
         if ($request->status == "approved") {
             $order->status = $request->status;
         } elseif ($request->status == "cancel") {
             $order->status = $request->status;
-        } elseif($request->status == 'pending') {
+        } elseif ($request->status == 'pending') {
             $order->status = '';
         }
-        $order->message = $request->message;
+        $order->product_id  = $order->product_id;
         $order->save();
         ToastMagic::info('Order Update successfully!');
-        return redirect()->route('order');
+        return redirect()->route('admin.order');
     }
 }

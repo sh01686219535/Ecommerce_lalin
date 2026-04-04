@@ -37,11 +37,13 @@ Route::prefix('admin')->group(function(){
      //============Order==============//
     Route::get('order', [OrderController::class, 'orderIndex'])->name('admin.order');
     Route::post('order-delete/{id}', [OrderController::class, 'orderDelete'])->name('admin.order.delete');
-    Route::get('order-property/{id}', [OrderController::class, 'orderProperty'])->name('admin.order.property');
+    Route::get('order-product/{id}', [OrderController::class, 'orderProduct'])->name('admin.order.product');
     Route::get('order-approve/{id}', [OrderController::class, 'orderApprove'])->name('admin.order.approve');
     Route::get('order-cancel/{id}', [OrderController::class, 'orderCancel'])->name('admin.order.cancel');
     Route::get('order-edit/{id}', [OrderController::class, 'orderEdit'])->name('admin.order.edit');
     Route::post('order-update/{id}', [OrderController::class, 'orderUpdate'])->name('admin.order.update');
+    Route::get('admin-order/pdf/{id}', [OrderController::class, 'orderPdfdownload'])->name('admin.order.pdf');
+    
     //===========Profile==========//
     Route::get('/profile-index', [ProfileController::class, 'profileIndex'])->name('admin.profile.index');
     Route::post('/profile-update', [ProfileController::class, 'profileUpdate'])->name('admin.profile.update');

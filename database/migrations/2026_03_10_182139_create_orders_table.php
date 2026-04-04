@@ -16,9 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone');
             $table->string('address')->nullable();
-            $table->string('delivary_charge');
-            $table->string('quantity');
-            $table->string('total_price');
+            $table->string('delivary_charge')->nullable();
+            $table->string('quantity')->nullable();
+            $table->string('status')->nullable();
+            $table->string('total_price')->nullable();
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();

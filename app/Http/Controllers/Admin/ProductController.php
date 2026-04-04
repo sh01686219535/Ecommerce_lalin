@@ -259,16 +259,51 @@ class ProductController extends Controller
         return response()->json($childcategories);
     }
     //productGroupDetails
-    public function productGroupDetails($id)
-    {
-        // Category wise all products
-        $products = Product::with('category', 'subCategory', 'childCategory', 'brand')
-            ->where('category_id', $id)
-            ->latest()
-            ->get();
+public function productGroupDetails($id)
+{
+    // Fetch category with subcategories
+    $category = Category::with('subCategories')->findOrFail($id);
 
-        return view('frontend.product.product_group_details', compact('products'));
+    // Base product query
+    $query = Product::with('category', 'subCategory', 'childCategory', 'brand')
+        ->where('category_id', $category->id);
+
+    // Subcategory filter
+    if ($subcategories = request('subcategory')) {
+        $query->whereIn('sub_category_id', (array)$subcategories);
     }
+
+    // Price filter
+    $minPrice = request('min_price', 0);
+    $maxPrice = request('max_price', 1000000);
+    $query->whereBetween('price', [$minPrice, $maxPrice]);
+
+    // Sorting
+    switch (request('sort')) {
+        case 'oldest':
+            $query->oldest();
+            break;
+        case 'high':
+            $query->orderBy('price', 'desc');
+            break;
+        case 'low':
+            $query->orderBy('price', 'asc');
+            break;
+        case 'a-z':
+            $query->orderBy('name', 'asc');
+            break;
+        case 'z-a':
+            $query->orderBy('name', 'desc');
+            break;
+        default:
+            $query->latest();
+    }
+
+    // Paginate products
+    $products = $query->paginate(8)->withQueryString();
+
+    return view('frontend.product.product_group_details', compact('products', 'category'));
+}
     //productDetails
     public function productDetails($id)
     {
@@ -287,7 +322,7 @@ class ProductController extends Controller
         $product = Product::with('category', 'subCategory', 'childCategory', 'brand')
             ->findOrFail($id);
         $products = Product::where('category_id', $product->category_id)->get();
-        return view('frontend.product.product_slider_details', compact('product','products'));
+        return view('frontend.product.product_slider_details', compact('product', 'products'));
     }
     //================All Product View Start=================//
     // //featuredProductView
@@ -334,34 +369,67 @@ class ProductController extends Controller
     //         ->get();
     //     return view('frontend.product.regular', compact('regularProductView'));
     // }
+
+
     public function productType($type)
-{
-    $query = Product::with('category', 'subCategory', 'childCategory', 'brand')
-        ->where('status', 1);
+    {
+        $query = Product::with('category', 'subCategory', 'childCategory', 'brand')
+            ->where('status', 1);
 
-    // Dynamic filter
-    if ($type != 'regular') {
-        $query->where('is_featured', $type);
+        // Featured / Regular / etc
+        if ($type != 'regular') {
+            $query->where('is_featured', $type);
+        }
+
+        // Subcategory filter (multiple selection)
+        if ($subcategories = request('subcategory')) {
+            $query->whereIn('sub_category_id', $subcategories);
+        }
+
+        // Price filter
+        $minPrice = request('min_price', 0);
+        $maxPrice = request('max_price', 1000000);
+        $query->whereBetween('price', [$minPrice, $maxPrice]);
+
+        // Sorting
+        switch (request('sort')) {
+            case 'oldest':
+                $query->oldest();
+                break;
+            case 'high':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'low':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'a-z':
+                $query->orderBy('name', 'asc');
+                break;
+            case 'z-a':
+                $query->orderBy('name', 'desc');
+                break;
+            default:
+                $query->latest();
+        }
+
+        $products = $query->paginate(12)->withQueryString();
+
+        // Titles
+        $titles = [
+            'featured'     => 'Featured Product',
+            'top_selling'  => 'Top Selling Product',
+            'new_launch'   => 'New Launch Product',
+            'most_popular' => 'Most Popular Product',
+            'regular'      => 'Regular Product',
+        ];
+        $title = $titles[$type] ?? 'Products';
+
+        // Categories for sidebar (with subcategories)
+        $categories = Category::with('subCategories')->get();
+
+
+        return view('frontend.product.common_view', compact('products', 'title', 'categories'));
     }
-
-    // Title dynamic
-    $titles = [
-        'featured'     => 'Featured Product',
-        'top_selling'  => 'Top Selling Product',
-        'new_launch'   => 'New Launch Product',
-        'most_popular' => 'Most Popular Product',
-        'regular'      => 'Regular Product',
-    ];
-
-    if (!array_key_exists($type, $titles)) {
-        abort(404);
-    }
-
-    $products = $query->latest()->get();
-    $title = $titles[$type];
-
-    return view('frontend.product.common_view', compact('products', 'title'));
-}
     //================All Product View End=================//
     //================Category Product Start=================//
     // productCategoryDetails

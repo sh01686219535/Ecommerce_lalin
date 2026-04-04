@@ -16,20 +16,6 @@
                 color: red;
                 font-size: 13px;
             }
-
-            /* Image */
-            /* .cat_img {
-                                        width: 100%;
-                                        height: 100%;
-                                    } */
-
-            /* .cat_img img {
-                                        width: 100%;
-                                        height: 100%;
-                                        object-fit: cover;
-                                        transition: transform 0.6s ease;
-                                    } */
-
             /* ===== RESPONSIVE ===== */
             @media (max-width: 992px) {
                 .cat_item {
@@ -86,35 +72,7 @@
         @endif
 
         {{-- PRODUCT SECTIONS --}}
-        {{-- @php
-            $sections = [
-                [
-                    'title' => 'Featured Product',
-                    'products' => $featured_product,
-                    'route' => route('featured.product.view'),
-                ],
-                [
-                    'title' => 'Top Selling Product',
-                    'products' => $top_selling_Product,
-                    'route' => route('topSelling.product.view'),
-                ],
-                [
-                    'title' => 'New Launch Product',
-                    'products' => $new_launch_product,
-                    'route' => route('newLaunch.product.view'),
-                ],
-                [
-                    'title' => 'Most Popular Product',
-                    'products' => $most_popular_product,
-                    'route' => route('popular.product.view'),
-                ],
-                [
-                    'title' => 'Regular Product',
-                    'products' => $regular_product,
-                    'route' => route('regular.product.view'),
-                ],
-            ];
-        @endphp --}}
+     
         @php
             $sections = [
                 [

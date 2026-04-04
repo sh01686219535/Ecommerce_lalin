@@ -12,17 +12,17 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="category-breadcrumb d-flex align-items-center">
-                            <a href="https://ghuribd.com">Home</a>
+                            <a href="{{ url('/') }}">Home</a>
                             <span>/</span>
-                            <strong>Gadgets &amp; Electronics</strong>
+                            <strong>{{ $category->category ?? '' }}</strong>
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="showing-data">
-                                    <span>Showing 1-24 of
-                                        35 Results</span>
+                                    {{-- <span>Showing 1-24 of
+                                        35 Results</span> --}}
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -31,17 +31,27 @@
                                         <i class="fa fa-list-ul"></i>
                                     </div>
                                     <div class="page-sort">
-                                        <form action="" class="sort-form">
+                                        <form action="" method="GET" class="sort-form">
                                             <select name="sort" class="form-control form-select sort">
-                                                <option value="1">Product: Latest</option>
-                                                <option value="2">Product: Oldest</option>
-                                                <option value="3">Price: High To Low</option>
-                                                <option value="4">Price: Low To High</option>
-                                                <option value="5">Name: A-Z</option>
-                                                <option value="6" selected="">Name: Z-A</option>
+                                                <option value="latest" {{ request('sort') == 'latest' ? 'selected' : '' }}>
+                                                    Product: Latest</option>
+                                                <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>
+                                                    Product: Oldest</option>
+                                                <option value="high" {{ request('sort') == 'high' ? 'selected' : '' }}>
+                                                    Price: High To Low</option>
+                                                <option value="low" {{ request('sort') == 'low' ? 'selected' : '' }}>
+                                                    Price: Low To High</option>
+                                                <option value="a-z" {{ request('sort') == 'a-z' ? 'selected' : '' }}>
+                                                    Name: A-Z</option>
+                                                <option value="z-a" {{ request('sort') == 'z-a' ? 'selected' : '' }}>
+                                                    Name: Z-A</option>
                                             </select>
-                                            <input type="hidden" name="min_price" value="">
-                                            <input type="hidden" name="max_price" value="">
+
+                                            <input type="hidden" name="min_price" value="{{ request('min_price') }}">
+                                            <input type="hidden" name="max_price" value="{{ request('max_price') }}">
+                                            @foreach (request('subcategory', []) as $subcat)
+                                                <input type="hidden" name="subcategory[]" value="{{ $subcat }}">
+                                            @endforeach
                                         </form>
                                     </div>
                                 </div>
@@ -52,9 +62,7 @@
             </div>
 
             <div class="row">
-
                 <div class="col-sm-3 filter_sidebar">
-
                     <form action="" class="attribute-submit">
                         <div class="sidebar_item wraper__item">
                             <div class="accordion" id="category_sidebar">
@@ -62,44 +70,40 @@
                                     <h2 class="accordion-header">
                                         <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                             data-bs-target="#collapseCat" aria-expanded="true" aria-controls="collapseOne">
-                                            Gadgets &amp; Electronics
+                                            {{ $category->category ?? '' }}
                                         </button>
                                     </h2>
                                     <div id="collapseCat" class="accordion-collapse collapse show"
                                         data-bs-parent="#category_sidebar">
                                         <div class="accordion-body cust_according_body">
                                             <ul>
-                                                <li>
-                                                    <a href="https://ghuribd.com/subcategory/audio-&amp;-music">Audio &amp;
-                                                        Music</a>
-                                                </li>
-                                                <li>
-                                                    <a href="https://ghuribd.com/subcategory/earbuds">Earbuds</a>
-                                                </li>
-                                                <li>
-                                                    <a href="https://ghuribd.com/subcategory/powerbank">PowerBank</a>
-                                                </li>
-                                                <li>
-                                                    <a href="https://ghuribd.com/subcategory/neckband">Neckband</a>
-                                                </li>
-                                                <li>
-                                                    <a href="https://ghuribd.com/subcategory/usb-multi-port">USB
-                                                        Multi-port</a>
-                                                </li>
+                                                @foreach ($category->subCategories as $sub)
+                                                    <li>
+                                                        <a href="#"
+                                                            class="{{ request('subcategory') == $sub->id ? 'active' : '' }}">
+                                                            {{ $sub->sub_category }}
+                                                        </a>
+                                                    </li>
+                                                @endforeach
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!--sidebar item end-->
+                    </form>
+                    <!--sidebar item end-->
+
+                    <form action="{{ url()->current() }}" method="GET" class="attribute-submit">
+
+                        <!-- PRICE SLIDER -->
+
                         <div class="sidebar_item wraper__item">
                             <div class="accordion" id="price_sidebar">
                                 <div class="accordion-item">
                                     <h2 class="accordion-header">
                                         <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#collapsePrice" aria-expanded="true"
-                                            aria-controls="collapseOne">
+                                            data-bs-target="#collapsePrice" aria-expanded="true">
                                             Price
                                         </button>
                                     </h2>
@@ -112,12 +116,13 @@
                                                         <div class="slider-box">
                                                             <div class="filter-price-inputs">
                                                                 <p class="min-price">৳
-                                                                    <input type="text" id="min_price" readonly
-                                                                        value="500">
+                                                                    <input type="text" id="min_price" name="min_price"
+                                                                        readonly value="{{ request('min_price', 500) }}">
                                                                 </p>
                                                                 <p class="max-price">৳
-                                                                    <input type="text" id="max_price" readonly
-                                                                        value="100000">
+                                                                    <input type="text" id="max_price" name="max_price"
+                                                                        readonly
+                                                                        value="{{ request('max_price', 100000) }}">
                                                                 </p>
                                                             </div>
 
@@ -126,9 +131,10 @@
                                                                 <div class="range" id="rangeFill"></div>
 
                                                                 <input type="range" id="minRange" min="0"
-                                                                    max="10000" value="500">
+                                                                    max="10000" value="{{ request('min_price', 100) }}">
                                                                 <input type="range" id="maxRange" min="0"
-                                                                    max="10000" value="8000">
+                                                                    max="10000"
+                                                                    value="{{ request('max_price', 20000) }}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -140,72 +146,46 @@
                             </div>
                         </div>
 
-                        <!--sidebar item end-->
-                        <div class="sidebar_item wraper__item">
-                            <div class="accordion" id="filter_sidebar">
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#collapseFilter" aria-expanded="true"
-                                            aria-controls="collapseOne">
-                                            Filter
-                                        </button>
-                                    </h2>
-                                    <div id="collapseFilter" class="accordion-collapse collapse show"
-                                        data-bs-parent="#filter_sidebar">
-                                        <div class="accordion-body cust_according_body">
-                                            <div class="filter-body">
-                                                <ul class="space-y-3">
+                        <!-- SUBCATEGORY CHECKBOXES -->
+                    </form>
+                    <!--sidebar item end-->
+                    <div class="sidebar_item wraper__item">
+                        <div class="accordion" id="filter_sidebar">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseFilter" aria-expanded="true"
+                                        aria-controls="collapseOne">
+                                        Filter
+                                    </button>
+                                </h2>
+                                <div id="collapseFilter" class="accordion-collapse collapse show"
+                                    data-bs-parent="#filter_sidebar">
+                                    <div class="accordion-body cust_according_body">
+                                        <div class="filter-body">
+                                            <ul class="space-y-3">
+                                                @foreach ($category->subCategories as $sub)
                                                     <li class="subcategory-filter-list">
-                                                        <label for="audio-&amp;-music-2" class="subcategory-filter-label">
+                                                        <label for="subcategory-{{ $sub->id }}"
+                                                            class="subcategory-filter-label">
                                                             <input class="form-checkbox form-attribute"
-                                                                id="audio-&amp;-music-2" name="subcategory[]"
-                                                                value="2" type="checkbox">
-                                                            <p class="subcategory-filter-name">
-                                                                Audio &amp; Music</p>
+                                                                id="subcategory-{{ $sub->id }}" name="subcategory[]"
+                                                                value="{{ $sub->id }}" type="checkbox"
+                                                                onchange="this.form.submit()"
+                                                                {{ in_array($sub->id, request('subcategory', [])) ? 'checked' : '' }}>
+                                                            <p class="subcategory-filter-name">{{ $sub->sub_category }}
+                                                            </p>
                                                         </label>
                                                     </li>
-                                                    <li class="subcategory-filter-list">
-                                                        <label for="earbuds-8" class="subcategory-filter-label">
-                                                            <input class="form-checkbox form-attribute" id="earbuds-8"
-                                                                name="subcategory[]" value="8" type="checkbox">
-                                                            <p class="subcategory-filter-name">
-                                                                Earbuds</p>
-                                                        </label>
-                                                    </li>
-                                                    <li class="subcategory-filter-list">
-                                                        <label for="powerbank-9" class="subcategory-filter-label">
-                                                            <input class="form-checkbox form-attribute" id="powerbank-9"
-                                                                name="subcategory[]" value="9" type="checkbox">
-                                                            <p class="subcategory-filter-name">
-                                                                PowerBank</p>
-                                                        </label>
-                                                    </li>
-                                                    <li class="subcategory-filter-list">
-                                                        <label for="neckband-10" class="subcategory-filter-label">
-                                                            <input class="form-checkbox form-attribute" id="neckband-10"
-                                                                name="subcategory[]" value="10" type="checkbox">
-                                                            <p class="subcategory-filter-name">
-                                                                Neckband</p>
-                                                        </label>
-                                                    </li>
-                                                    <li class="subcategory-filter-list">
-                                                        <label for="usb-multi-port-12" class="subcategory-filter-label">
-                                                            <input class="form-checkbox form-attribute"
-                                                                id="usb-multi-port-12" name="subcategory[]"
-                                                                value="12" type="checkbox">
-                                                            <p class="subcategory-filter-name">
-                                                                USB Multi-port</p>
-                                                        </label>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                                @endforeach
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!--sidebar item end-->
+                    </div>
+                    <!--sidebar item end-->
                     </form>
                 </div>
                 <div class="col-sm-9">
@@ -216,17 +196,16 @@
                                 style="visibility: visible; animation-duration: 1.5s; animation-delay: 0s; animation-name: fadeInDown;">
                                 <div class="product_item_inner">
                                     <div class="sale-badge-view">
-                                        <div class="sale-badge-inner-view">
-                                            <div class="sale-badge-box-view">
-                                                <span class="sale-badge-text-view">
-                                                    @if (!empty($data->discount_price_percentage))
+                                        @if (!empty($data->discount_price_percentage))
+                                            <div class="sale-badge-inner-view">
+                                                <div class="sale-badge-box-view">
+                                                    <span class="sale-badge-text-view">
                                                         <p>{{ $data->discount_price_percentage }}%</p>
                                                         ছাড়
-                                                    @endif
-
-                                                </span>
+                                                    </span>
+                                                </div>
                                             </div>
-                                        </div>
+                                        @endif
                                     </div>
                                     <div class="pro_img">
                                         <a href="{{ route('product.details', $data->id) }}">
@@ -264,73 +243,44 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="custom_paginate">
-                        <nav>
-                            <ul class="pagination">
 
-                                <li class="page-item disabled" aria-disabled="true" aria-label="« Previous">
-                                    <span class="page-link" aria-hidden="true">‹</span>
-                                </li>
-
-
-                                <li class="page-item active" aria-current="page"><span class="page-link">1</span></li>
-                                <li class="page-item"><a class="page-link"
-                                        href="https://ghuribd.com/category/gadgets-&amp;-electronics?page=2">2</a></li>
-
-
-                                <li class="page-item">
-                                    <a class="page-link"
-                                        href="https://ghuribd.com/category/gadgets-&amp;-electronics?page=2"
-                                        rel="next" aria-label="Next »">›</a>
-                                </li>
-                            </ul>
-                        </nav>
-
-
+            {{-- Pagination --}}
+            @if ($products->hasPages())
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-center mt-4">
+                        {{ $products->links() }}
                     </div>
                 </div>
-            </div>
+            @endif
         </div>
     </section>
 @endsection
 @push('js')
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-
+            // Price slider
             const minRange = document.getElementById("minRange");
             const maxRange = document.getElementById("maxRange");
-
             const minInput = document.getElementById("min_price");
             const maxInput = document.getElementById("max_price");
-
             const rangeFill = document.getElementById("rangeFill");
-
             const minGap = 100;
 
             function updatePriceSlider(e) {
                 let minVal = parseInt(minRange.value);
                 let maxVal = parseInt(maxRange.value);
 
-                // prevent overlap
                 if (maxVal - minVal < minGap) {
-                    if (e && e.target.id === "minRange") {
-                        minRange.value = maxVal - minGap;
-                    } else {
-                        maxRange.value = minVal + minGap;
-                    }
+                    if (e && e.target.id === "minRange") minRange.value = maxVal - minGap;
+                    else maxRange.value = minVal + minGap;
                 }
 
-                // update values again
                 minVal = parseInt(minRange.value);
                 maxVal = parseInt(maxRange.value);
 
-                // ✅ THIS LINE FIXES YOUR PROBLEM
                 minInput.value = minVal;
                 maxInput.value = maxVal;
 
-                // update green bar
                 let percentMin = (minVal / minRange.max) * 100;
                 let percentMax = (maxVal / maxRange.max) * 100;
 
@@ -338,12 +288,26 @@
                 rangeFill.style.width = (percentMax - percentMin) + "%";
             }
 
-            // events
             minRange.addEventListener("input", updatePriceSlider);
             maxRange.addEventListener("input", updatePriceSlider);
+            minRange.addEventListener("change", () => minRange.closest('form').submit());
+            maxRange.addEventListener("change", () => maxRange.closest('form').submit());
 
-            // init
             updatePriceSlider();
+
+            // Auto-submit on checkbox change
+            document.querySelectorAll('.form-attribute').forEach(el => {
+                el.addEventListener('change', function() {
+                    this.closest('form').submit();
+                });
+            });
+
+            // Sort select submit
+            document.querySelectorAll('.sort').forEach(el => {
+                el.addEventListener('change', function() {
+                    this.form.submit();
+                });
+            });
         });
     </script>
 @endpush

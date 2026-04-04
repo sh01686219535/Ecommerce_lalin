@@ -24,21 +24,20 @@
                                     </div>
                                 @endif
                                 <div class="card-body">
-                                    <form action="{{ route('admin.order.update', $order->id) }}" method="post"
+                                    <form action="{{ route('admin.order.update', $order->id) }}" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf
-                                        @method('post')
                                         <div class="mb-3">
-                                            <input type="text" name="name" class="form-control" id="name"
+                                            <input type="text" name="name" class="form-control"
                                                 placeholder="Enter Your Name" value="{{ $order->name }}">
                                         </div>
                                         <div class="mb-3">
-                                            <input type="number" name="phone" class="form-control" id="phone"
+                                            <input type="number" name="phone" class="form-control"
                                                 placeholder="Enter Your Phone" value="{{ $order->phone }}">
                                         </div>
                                         <div class="mb-3">
-                                            <input type="email" name="email" class="form-control" id="email"
-                                                placeholder="Enter Email Address" value="{{ $order->email }}">
+                                            <input type="text" name="address" class="form-control"
+                                                placeholder="Enter Your Address" value="{{ $order->address }}">
                                         </div>
                                         <div class="mb-3">
                                             <select name="status" class="form-control">
@@ -47,13 +46,11 @@
                                                     {{ $order->status == 'approved' ? 'selected' : '' }}>Approved</option>
                                                 <option value="cancel" {{ $order->status == 'cancel' ? 'selected' : '' }}>
                                                     Canceled</option>
-                                                <option value="pending" {{ $order->status == '' ? 'selected' : '' }}>
-                                                    Pending</option>
+                                                <option value="pending" {{ $order->status == '' ? 'selected' : '' }}>Pending
+                                                </option>
                                             </select>
-                                            <div class="mb-3">
-                                                <textarea name="message" id="message" rows="3" class="form-control" placeholder="Please Type Your Message">{{ $order->message }}</textarea>
-                                            </div>
-                                            <button type="submit" class="btn btn-success">Submit</button>
+                                        </div>
+                                        <button type="submit" class="btn btn-success">Submit</button>
                                     </form>
                                 </div>
                             </div>
