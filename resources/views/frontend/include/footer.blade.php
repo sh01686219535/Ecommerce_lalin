@@ -4,12 +4,12 @@
             <div class="row">
                 <div class="col-sm-4 mb-3 mb-sm-0">
                     <div class="footer-about">
-                        <a href="https://ghuribd.com">
+                        <a href="{{route('home')}}">
                             <img src="https://ghuribd.com/public/uploads/settings/1763375789-screenshot_2025-11-17_163453-removebg-preview.webp"
                                 alt="">
                         </a>
-                        <p>Kazlarpar, Jatrabari, Dhaka-1236.</p>
-                        <a href="tel:+880 1886-600639" class="footer-hotlint">+880 1886-600639</a>
+                        <p>দোকান নং-১০৪,(২য় তলা) কাপ্তান বাজার কমপ্লেক্স,ভবন-২,গুলিস্তান,ঢাকা-১২০৩.</p>
+                        <a href="tel:+880 ১৮৬৫-৯৩৯৪৯২" class="footer-hotlint">+880 ১৮৬৫-৯৩৯৪৯২</a>
                     </div>
                 </div>
                 <!-- col end -->

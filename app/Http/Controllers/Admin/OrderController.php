@@ -5,13 +5,17 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Category;
 use App\Models\Admin\Order;
-use Illuminate\Http\Request;
 use App\Models\Admin\Product;
+use App\Models\Admin\Property; // Added
+use Illuminate\Http\Request;
 use Devrabiul\ToastMagic\Facades\ToastMagic;
-use PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class OrderController extends Controller
 {
+    /**
+     * Submit a new order
+     */
     public function order(Request $request, $id)
     {
         $request->validate([
@@ -21,94 +25,125 @@ class OrderController extends Controller
         ]);
 
         $property = Property::findOrFail($id);
-        if (isset($property)) {
-            $order = new Order();
-            $order->name = $request->name;
-            $order->property_id = $property->id;
-            $order->vendor_id = $property->vendor_id;
-            $order->phone = $request->phone;
-            $order->email = $request->email;
-            $order->message = $request->message;
-            $order->save();
-            ToastMagic::success('Order Submitted successfully!');
-            return back();
-        }
+
+        $order = new Order();
+        $order->name = $request->name;
+        $order->property_id = $property->id;
+        $order->vendor_id = $property->vendor_id;
+        $order->phone = $request->phone;
+        $order->email = $request->email;
+        $order->message = $request->message ?? '';
+        $order->save();
+
+        ToastMagic::success('Order submitted successfully!');
+        return back();
     }
-    // order index
+
+    /**
+     * Display list of orders
+     */
     public function orderIndex()
     {
-
-        $order = Order::orderBy('id', 'desc')->paginate(10);
-        return view('admin.order.index', compact('order'));
+        $orders = Order::orderBy('id', 'desc')->paginate(10);
+        return view('admin.order.index', compact('orders'));
     }
-    //orderDelete
+
+    /**
+     * Delete an order
+     */
     public function orderDelete($id)
     {
         $order = Order::findOrFail($id);
         $order->delete();
-        ToastMagic::success('Order Deleted successfully!');
+        ToastMagic::success('Order deleted successfully!');
         return back();
     }
-    //orderProperty
+
+    /**
+     * Show order product details
+     */
     public function orderProduct($id)
     {
         $order = Order::findOrFail($id);
-        $product = Product::where('id', $order->product_id)->first();
+        $product = Product::find($order->product_id);
         $categories = Category::all();
+
         return view('admin.order.product_details', compact('product', 'categories'));
     }
 
-
+    /**
+     * Approve an order
+     */
     public function orderApprove($id)
     {
         $order = Order::with('product')->findOrFail($id);
         $order->status = 'approved';
         $order->save();
+
+        ToastMagic::success('Order approved successfully!');
         return back();
     }
 
-    // orderPdfdownload
+    /**
+     * Download invoice as PDF with Bangla support
+     */
     public function orderPdfdownload($id)
     {
         $order = Order::with('product')->findOrFail($id);
-        $pdf = PDF::loadView('admin.order.invoice_pdf', compact('order'));
+
+        $pdf = PDF::loadView('admin.order.invoice_pdf', compact('order'))
+            ->setPaper('a4', 'portrait')
+            ->setOptions([
+                'defaultFont' => 'NotoSansBengali', // Bangla font
+                'isHtml5ParserEnabled' => true,
+                'isRemoteEnabled' => true,
+            ]);
+
         return $pdf->download('Invoice_' . $order->id . '.pdf');
     }
-    //  Cancel Order
+
+    /**
+     * Cancel an order
+     */
     public function orderCancel($id)
     {
         $order = Order::findOrFail($id);
         $order->status = 'cancel';
         $order->save();
-        ToastMagic::success('Order cancelled and emails sent.!');
-        return redirect()->back();
+
+        ToastMagic::success('Order cancelled successfully!');
+        return back();
     }
-    //orderEdit
+
+    /**
+     * Edit an order
+     */
     public function orderEdit($id)
     {
         $order = Order::findOrFail($id);
         return view('admin.order.edit', compact('order'));
     }
-    //orderUpdate
+
+    /**
+     * Update an order
+     */
     public function orderUpdate(Request $request, $id)
     {
         $order = Order::findOrFail($id);
-        if (!$order) {
-            return response('Order not found', 404);
-        }
+
         $order->name = $request->name;
         $order->phone = $request->phone;
         $order->address = $request->address;
-        if ($request->status == "approved") {
-            $order->status = $request->status;
-        } elseif ($request->status == "cancel") {
-            $order->status = $request->status;
-        } elseif ($request->status == 'pending') {
-            $order->status = '';
+
+        // Status handling
+        $validStatus = ['approved', 'cancel', 'pending', ''];
+        if (in_array($request->status, $validStatus)) {
+            $order->status = $request->status === 'pending' ? '' : $request->status;
         }
-        $order->product_id  = $order->product_id;
+
         $order->save();
-        ToastMagic::info('Order Update successfully!');
+
+        ToastMagic::info('Order updated successfully!');
         return redirect()->route('admin.order');
     }
 }

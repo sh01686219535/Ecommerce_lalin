@@ -225,19 +225,37 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Status</label>
+                                                        <select name="status" class="form-control">
+                                                            <option value="">Select Status</option>
+                                                            <option value="1"
+                                                                {{ old('status', $product->status) == 1 ? 'selected' : '' }}>
+                                                                Active
+                                                            </option>
+                                                            <option value="0"
+                                                                {{ old('status', $product->status) == 0 ? 'selected' : '' }}>
+                                                                Inactive
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
 
-                                            <div class="form-group">
-                                                <label>Status</label>
-                                                <select name="status" class="form-control">
-                                                    <option value="">Select Status</option>
-                                                    <option value="1"
-                                                        {{ old('status', $product->status) == 1 ? 'selected' : '' }}>Active
-                                                    </option>
-                                                    <option value="0"
-                                                        {{ old('status', $product->status) == 0 ? 'selected' : '' }}>
-                                                        Inactive</option>
-                                                </select>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="quantity">Quantity</label>
+                                                        <input type="number" id="quantity" name="quantity"
+                                                            value="{{ old('quantity', $product->quantity ?? '') }}"
+                                                            class="form-control @error('quantity') is-invalid @enderror" />
+                                                        @error('quantity')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
                                             </div>
+
 
                                             <div class="row">
                                                 <div class="col-md-6">

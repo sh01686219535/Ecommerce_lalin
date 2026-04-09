@@ -138,7 +138,11 @@
                                             @endif
                                         </div>
                                         <div class="pro_btn">
-                                            <a href="{{ route('order', $data->id) }}">অর্ডার করুন</a>
+                                            @if ($data->quantity)
+                                                <a href="{{ route('order', $data->id) }}">অর্ডার করুন</a> 
+                                            @else
+                                                 <a href="#" style="background:#008B8B;">Out Of Stock</a>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

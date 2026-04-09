@@ -24,7 +24,7 @@
                                     </thead>
                                     <tbody>
                                         @php $i = 1; @endphp
-                                        @foreach ($order as $data)
+                                        @foreach ($orders as $data)
                                             <tr>
                                                 <td>#{{ $i++ }}</td>
                                                 <td>{{ $data->name }}</td>

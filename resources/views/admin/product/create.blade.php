@@ -201,18 +201,31 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label for="status">Status</label>
-                                                <select id="status"
-                                                    class="form-control @error('status') is-invalid  @enderror"
-                                                    name="status" value="{{ old('status') }}">
-                                                    <option value="">Select Status</option>
-                                                    <option value="1">Active</option>
-                                                    <option value="0">Inactive</option>
-                                                </select>
-                                                @error('status')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="status">Status</label>
+                                                        <select id="status"
+                                                            class="form-control @error('status') is-invalid  @enderror"
+                                                            name="status" value="{{ old('status') }}">
+                                                            <option value="">Select Status</option>
+                                                            <option value="1">Active</option>
+                                                            <option value="0">Inactive</option>
+                                                        </select>
+                                                        @error('status')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="quantity">Quantity</label>
+                                                        <input id="quantity" name="quantity" class="form-control @error('quantity') is-invalid  @enderror"/>
+                                                        @error('quantity')
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -230,7 +243,8 @@
                                                 <div class="col-md-6">
                                                     <div class="form-check form-switch mb-3">
                                                         <label for="is_featured">Featured Product</label>
-                                                        <select name="is_featured" id="is_featured" class="form-control @error('is_featured')
+                                                        <select name="is_featured" id="is_featured"
+                                                            class="form-control @error('is_featured')
                                                             @enderror">
                                                             <option value="">Select Featured</option>
                                                             <option value="featured">Featured Product</option>
@@ -239,7 +253,7 @@
                                                             <option value="new_launch">Newly Launched Product</option>
                                                         </select>
                                                         @error('is_featured')
-                                                            <div class="invalid-feedback">{{$message}}</div>
+                                                            <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
                                                     </div>
                                                 </div>

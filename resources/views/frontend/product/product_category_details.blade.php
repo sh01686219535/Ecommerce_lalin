@@ -14,7 +14,16 @@
                         <div class="category-breadcrumb d-flex align-items-center">
                             <a href="{{ url('/') }}">Home</a>
                             <span>/</span>
-                            <strong>{{ $category->category ?? '' }}</strong>
+                            {{-- <strong>{{ $category->category ?? '' }}</strong> --}}
+                            <strong>
+                                @if ($type === 'category')
+                                    <strong>{{ $category->category ?? '' }}</strong>
+                                @elseif($type === 'sub_category')
+                                    <strong>{{ $category->category->category ?? '' }}</strong>
+                                @elseif($type === 'child_category')
+                                    <strong>{{ $category->subCategory->category->category ?? '' }}</strong>
+                                @endif
+                            </strong>
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -70,21 +79,51 @@
                                     <h2 class="accordion-header">
                                         <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                             data-bs-target="#collapseCat" aria-expanded="true" aria-controls="collapseOne">
-                                            {{ $category->category ?? '' }}
+                                            {{-- {{ $category->category ?? '' }} --}}
+                                            <strong>
+                                                @if ($type === 'category')
+                                                    <strong>{{ $category->category ?? '' }}</strong>
+                                                @elseif($type === 'sub_category')
+                                                    <strong>{{ $category->category->category ?? '' }}</strong>
+                                                @elseif($type === 'child_category')
+                                                    <strong>{{ $category->subCategory->category->category ?? '' }}</strong>
+                                                @endif
+                                            </strong>
                                         </button>
                                     </h2>
                                     <div id="collapseCat" class="accordion-collapse collapse show"
                                         data-bs-parent="#category_sidebar">
                                         <div class="accordion-body cust_according_body">
                                             <ul>
-                                                @foreach ($category->subCategories as $sub)
+                                                {{-- @foreach ($category->subCategories as $sub)
                                                     <li>
                                                         <a href="#"
                                                             class="{{ request('subcategory') == $sub->id ? 'active' : '' }}">
                                                             {{ $sub->sub_category }}
                                                         </a>
                                                     </li>
-                                                @endforeach
+                                                @endforeach --}}
+
+                                                @if ($type === 'category' && $category->subCategories->count())
+                                                    @foreach ($category->subCategories as $sub)
+                                                        <li>
+                                                            <a href="#"
+                                                                class="{{ in_array($sub->id, (array) request('subcategory', [])) ? 'active' : '' }}">
+                                                                {{ $sub->sub_category }}
+                                                            </a>
+                                                        </li>
+                                                    @endforeach
+                                                @elseif($type === 'sub_category' && $category->childCategories->count())
+                                                    @foreach ($category->childCategories as $child)
+                                                        <li>
+                                                            <a href="#"
+                                                                class="{{ in_array($child->id, (array) request('child_category', [])) ? 'active' : '' }}">
+                                                                {{ $child->child_category }}
+                                                            </a>
+                                                        </li>
+                                                    @endforeach
+                                                @endif
+
                                             </ul>
                                         </div>
                                     </div>
@@ -131,7 +170,8 @@
                                                                 <div class="range" id="rangeFill"></div>
 
                                                                 <input type="range" id="minRange" min="0"
-                                                                    max="10000" value="{{ request('min_price', 100) }}">
+                                                                    max="10000"
+                                                                    value="{{ request('min_price', 100) }}">
                                                                 <input type="range" id="maxRange" min="0"
                                                                     max="10000"
                                                                     value="{{ request('max_price', 20000) }}">
@@ -164,7 +204,7 @@
                                     <div class="accordion-body cust_according_body">
                                         <div class="filter-body">
                                             <ul class="space-y-3">
-                                                @foreach ($category->subCategories as $sub)
+                                                {{-- @foreach ($category->subCategories as $sub)
                                                     <li class="subcategory-filter-list">
                                                         <label for="subcategory-{{ $sub->id }}"
                                                             class="subcategory-filter-label">
@@ -177,7 +217,27 @@
                                                             </p>
                                                         </label>
                                                     </li>
-                                                @endforeach
+                                                @endforeach --}}
+                                                @if ($type === 'category' && $category->subCategories && $category->subCategories->count())
+                                                    @foreach ($category->subCategories as $sub)
+                                                        <li class="subcategory-filter-list">
+                                                            <label for="subcategory-{{ $sub->id }}"
+                                                                class="subcategory-filter-label">
+
+                                                                <input class="form-checkbox form-attribute"
+                                                                    id="subcategory-{{ $sub->id }}"
+                                                                    name="subcategory[]" value="{{ $sub->id }}"
+                                                                    type="checkbox" onchange="this.form.submit()"
+                                                                    {{ in_array($sub->id, (array) request('subcategory')) ? 'checked' : '' }}>
+
+                                                                <p class="subcategory-filter-name">
+                                                                    {{ $sub->sub_category }}
+                                                                </p>
+
+                                                            </label>
+                                                        </li>
+                                                    @endforeach
+                                                @endif
                                             </ul>
                                         </div>
                                     </div>
@@ -236,10 +296,11 @@
                                 <div class="pro_btn">
                                     <div class="cart_btn order_button">
                                          @if ($data->quantity)
-                                                <a class="addcartbutton" href="{{ route('order', $data->id) }}">অর্ডার করুন</a> 
+                                                <a  class="addcartbutton" href=" {{ route('order', $data->id) }}">অর্ডার করুন</a> 
                                             @else
                                                  <a href="#" style="background:#008B8B;">Out Of Stock</a>
                                             @endif
+
                                         {{-- <a href="{{ route('order', $data->id) }}" class="addcartbutton">অর্ডার</a> --}}
                                     </div>
                                 </div>

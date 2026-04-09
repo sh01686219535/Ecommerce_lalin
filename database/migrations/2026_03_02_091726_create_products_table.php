@@ -39,6 +39,7 @@ return new class extends Migration
             $table->json('multi_image')->nullable();
 
             $table->boolean('status')->default(1);
+            $table->string('quantity')->nullable();
             $table->text('video_url')->nullable();
             $table->string('is_featured')->nullable();
             $table->timestamps();
