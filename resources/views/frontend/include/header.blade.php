@@ -99,12 +99,14 @@
 
         <!-- Right Menu -->
         <div class="menu">
-            <a href="#"><i class="fas fa-truck"></i> Track Order</a>
-            @if (Auth::guard('user')->check())
-                <span>Welcome, <strong>{{ Auth::guard('user')->user()->name }}</strong></span>
-            @else
-                <a href="{{ route('user.view') }}">Login / Register</a>
-            @endif
+            <div class="menu-login">
+                <a href="#"><i class="fas fa-truck"></i> Track Order</a>
+                @if (Auth::guard('user')->check())
+                    <span>Welcome, <strong>{{ Auth::guard('user')->user()->name }}</strong></span>
+                @else
+                    <a href="{{ route('user.view') }}">Login / Register</a>
+                @endif
+            </div>
             <!-- header.blade.php -->
             <div class="cart">
                 <i class="fas fa-shopping-bag"></i>

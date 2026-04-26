@@ -18,12 +18,11 @@
                         <ul>
                             <li class="title"><a>Useful Link</a></li>
                             <li>
-                                <a href="https://ghuribd.com/site/contact-us"> </a><a
-                                    href="https://ghuribd.com/site/contact-us">Contact Us</a>
+                                <a href="{{route('contact')}}">Contact Us</a>
                             </li>
-                            <li><a href="https://ghuribd.com/page/order-procedure">Order procedure</a></li>
-                            <li><a href="https://ghuribd.com/page/delivery-rules">Delivery Rules</a></li>
-                            <li><a href="https://ghuribd.com/page/return-policy">Return Policy</a></li>
+                            <li><a href="#">Order procedure</a></li>
+                            <li><a href="#">Delivery Rules</a></li>
+                            <li><a href="#">Return Policy</a></li>
                         </ul>
                     </div>
                 </div>
@@ -33,10 +32,10 @@
                         <ul>
                             <li class="title"><a>Link</a></li>
                             <li>
-                                <a href="https://ghuribd.com/page/terms-&amp;-conditions">Terms &amp; Conditions</a>
+                                <a href="#">Terms &amp; Conditions</a>
                             </li>
                             <li>
-                                <a href="https://ghuribd.com/page/privacy-policy">Privacy Policy</a>
+                                <a href="#">Privacy Policy</a>
                             </li>
                         </ul>
                     </div>
@@ -50,13 +49,13 @@
                         </ul>
                         <ul class="social_link">
                             <li class="social_list facebook">
-                                <a href="#">
+                                <a href="https://www.facebook.com/bikhyatabazar" target="_blank">
                                     <i class="fa-brands fa-facebook-f"></i>
                                 </a>
                             </li>
 
                             <li class="social_list youtube">
-                                <a href="#">
+                                <a href="https://www.youtube.com/@bikhyatabazar" target="_blank">
                                     <i class="fa-brands fa-youtube"></i>
                                 </a>
                             </li>
@@ -64,7 +63,7 @@
                         <div class="d_app">
                             <h2>Download App</h2>
                             <a href="">
-                                <img src="https://ghuribd.com/public/frontEnd/images/app-download.png" alt="">
+                                <img src="#" alt="">
                             </a>
                         </div>
                     </div>
@@ -78,7 +77,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="copyright">
-                        <p>Copyright © 2026 GhuriBD | সহজ জীবনের ঠিকানা। Develop by <a href="https://royalx.dev/">Royalx
+                        <p>Copyright © 2026 Bikhyata Bazar.com | সহজ জীবনের ঠিকানা। Develop by <a href="#">Sharif It
                             </a>All rights reserved.</p>
                     </div>
                 </div>

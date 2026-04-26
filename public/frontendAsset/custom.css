@@ -1984,6 +1984,9 @@ tfoot td {
     width: 45px;
     height: 45px;
   }
+  .menu-login{
+    display: none;
+  }
 
 }
 
@@ -2555,3 +2558,6 @@ tfoot td {
 }
 
 /* =================main slider========= */
+/* =================Responsive css start========= */
+
+/* =================Responsive css End========= */

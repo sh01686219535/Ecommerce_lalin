@@ -217,8 +217,8 @@
 
                                     </div>
                                     <div class="pro_btn">
-                                         @if ($data->quantity)
-                                                <a class="addcartbutton" href="{{ route('order', $data->id) }}">অর্ডার করুন</a> 
+                                         @if ($product->quantity)
+                                                <a class="addcartbutton" href="{{ route('order', $product->id) }}">অর্ডার করুন</a> 
                                             @else
                                                  <a href="#" style="background:#008B8B;">Out Of Stock</a>
                                             @endif
